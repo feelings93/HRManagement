@@ -1,0 +1,11 @@
+.tab-item {
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #fff;
+  padding: 8px 16px;
+}
+.active {
+  background-color: #2196f3;
+  color: #fff;
+}
