@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,13 +13,18 @@ import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import { PersonOutlined, VpnKeyOutlined } from '@mui/icons-material';
 import { SIDEBAR_WIDTH } from '../../../constants';
+import { useCookies } from 'react-cookie';
+import useHttp from '../../../hooks/use-http';
+import { logout } from '../../../lib/api/auth';
 
 const Header = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [, , removeCookie] = useCookies();
   const user = null;
   const { handleDrawerToggle } = props;
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+  const { sendRequest } = useHttp(logout);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -207,9 +212,9 @@ const Header = (props) => {
               fullWidth
               variant="contained"
               onClick={() => {
-                // sendRequest();
-                localStorage.removeItem('accessToken');
-                window.location.replace('/login');
+                sendRequest();
+                removeCookie('session_id');
+                window.location.reload();
               }}
             >
               Đăng xuất

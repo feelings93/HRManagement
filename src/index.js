@@ -5,11 +5,17 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from 'react-cookie';
+import AuthContextProvider from './store/auth-context';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <CookiesProvider>
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </CookiesProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

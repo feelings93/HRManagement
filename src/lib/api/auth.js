@@ -1,9 +1,10 @@
 import { axios, bearerHeader } from '../config';
 
-export const login = async ({ email, password }) => {
+export const login = async ({ username, password }) => {
   try {
-    const response = await axios.post('/auth/login', { email, password }, {});
-    return response.data.accessToken;
+    const response = await axios.post('/login', { username, password });
+    console.log(response);
+    return response.data;
   } catch (err) {
     throw new Error(err);
   }
@@ -24,11 +25,7 @@ export const signup = async ({ email, password, name }) => {
 
 export const getProfile = async () => {
   try {
-    const response = await axios.get('/auth/profile', {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.get('/profile');
     return response.data;
   } catch (err) {
     throw new Error(err);
@@ -36,8 +33,13 @@ export const getProfile = async () => {
 };
 
 export const logout = async () => {
-  localStorage.removeItem('accessToken');
-  window.location.reload();
+  try {
+    const response = await axios.post('/logout');
+
+    return response.data;
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 export const updateProfile = async (data) => {
@@ -67,9 +69,4 @@ export const changePassword = async (data) => {
   } catch (err) {
     throw new Error(err);
   }
-};
-
-export default {
-  login,
-  signup,
 };
