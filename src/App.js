@@ -10,10 +10,11 @@ import Employee from './pages/Employee';
 import Department from './pages/Department';
 import Rule from './pages/Rule';
 import Report from './pages/Report';
-import  { AuthContext } from './store/auth-context';
+import { AuthContext } from './store/auth-context';
 import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import { useCookies } from 'react-cookie';
+import EmployeeContextProvider from './store/employee-context';
 
 const theme = createTheme({
   palette: {
@@ -86,7 +87,15 @@ function App() {
           <Route exact path="/" element={<MainLayout />}>
             <Route exact path="" element={<Navigate to="overview" />} />
             <Route exact path="overview" element={<Overview />} />
-            <Route exact path="employee" element={<Employee />} />
+            <Route
+              exact
+              path="employee"
+              element={
+                <EmployeeContextProvider>
+                  <Employee />
+                </EmployeeContextProvider>
+              }
+            />
             <Route exact path="department" element={<Department />} />
             <Route exact path="rule" element={<Rule />} />
             <Route exact path="report" element={<Report />} />
