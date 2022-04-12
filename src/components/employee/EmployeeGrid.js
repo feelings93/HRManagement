@@ -21,14 +21,15 @@ const EmployeeGrid = () => {
   } = employeeCtx;
   const columns = [
     {
-      field: 'id',
+      field: '_id',
       headerName: 'Id',
       editable: false,
+      width: 250
     },
     {
       field: 'lastName',
       headerName: 'Họ',
-      width: 200,
+      width: 100,
       editable: false,
     },
     {
@@ -46,36 +47,36 @@ const EmployeeGrid = () => {
     {
       field: 'phone',
       headerName: 'SĐT',
-      width: 100,
+      width: 130,
       editable: false,
     },
     {
       field: 'resignDate',
-      headerName: 'Ngày ký hợp đồng',
+      headerName: 'Ngày thôi việc',
       width: 200,
       editable: false,
     },
-    {
-      field: 'actived',
-      headerName: 'Trạng thái',
-      sortable: false,
-      headerAlign: 'center',
-      align: 'center',
-      width: 200,
-      editable: false,
-      renderCell: (params) => {
-        return (
-          <Chip
-            label={params.row.actived ? 'Đang hoạt động' : 'Ngưng hoạt động'}
-            variant={params.row.actived ? 'filled' : 'outlined'}
-            color={params.row.actived ? 'success' : 'warning'}
-            sx={{
-              color: params.row.actived ? '#fff' : 'inherit',
-            }}
-          />
-        );
-      },
-    },
+    // {
+    //   field: 'actived',
+    //   headerName: 'Trạng thái',
+    //   sortable: false,
+    //   headerAlign: 'center',
+    //   align: 'center',
+    //   width: 200,
+    //   editable: false,
+    //   renderCell: (params) => {
+    //     return (
+    //       <Chip
+    //         label={params.row.actived ? 'Đang hoạt động' : 'Ngưng hoạt động'}
+    //         variant={params.row.actived ? 'filled' : 'outlined'}
+    //         color={params.row.actived ? 'success' : 'warning'}
+    //         sx={{
+    //           color: params.row.actived ? '#fff' : 'inherit',
+    //         }}
+    //       />
+    //     );
+    //   },
+    // },
     {
       field: 'action',
       headerName: 'Thao tác',
@@ -90,11 +91,11 @@ const EmployeeGrid = () => {
             <IconButton onClick={partial(handleChangeEditEmployee, params.row)}>
               <Edit color="primary" />
             </IconButton>
-            <Switch
+            {/* <Switch
               checked={params.row.actived}
               onChange={handleChangeActiveEmployee.bind(null, params.row)}
               inputProps={{ 'aria-label': 'controlled' }}
-            />
+            /> */}
             {/* <IconButton onClick={partial(handleChangeDelEmployee, params.row)}>
               <Delete />
             </IconButton> */}
@@ -109,6 +110,7 @@ const EmployeeGrid = () => {
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           <StyleGrid
+            getRowId={(row) => row._id}
             columns={columns}
             rows={searchEmployees}
             disableSelectionOnClick

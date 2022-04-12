@@ -34,7 +34,7 @@ export const getProfile = async () => {
 
 export const logout = async () => {
   try {
-    const response = await axios.post('/logout');
+    const response = await axios.delete('/logout');
 
     return response.data;
   } catch (err) {

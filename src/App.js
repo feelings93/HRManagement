@@ -13,7 +13,6 @@ import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
 import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
-import { useCookies } from 'react-cookie';
 import EmployeeContextProvider from './store/employee-context';
 import Register from './pages/Register';
 
@@ -60,15 +59,16 @@ function RedirectWhenSignedInRoute() {
 }
 
 function App() {
-  const [cookies] = useCookies();
+
 
   const authCtx = useContext(AuthContext);
   const { setUser } = authCtx;
-  const { data, status, sendRequest } = useHttp(getProfile, cookies.session_id);
+  const { data, status, sendRequest } = useHttp(
+    getProfile,
+  );
   React.useEffect(() => {
-    if (!cookies.session_id) setUser(null);
-    else sendRequest();
-  }, [cookies.session_id, sendRequest, setUser]);
+    sendRequest();
+  }, [ sendRequest, setUser]);
   React.useEffect(() => {
     if (status === 'completed') {
       if (data) {

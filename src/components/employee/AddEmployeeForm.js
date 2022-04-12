@@ -12,7 +12,6 @@ import Stack from '@mui/material/Stack';
 import useHttp from '../../hooks/use-http';
 import { createEmployee } from '../../lib/api/employee';
 import { EmployeeContext } from '../../store/employee-context';
-import { AuthContext } from '../../store/auth-context';
 import { useForm } from 'react-hook-form';
 
 const options = [
@@ -29,15 +28,13 @@ const options = [
 const AddEmployeeForm = () => {
   const { register, handleSubmit } = useForm();
   const employeeCtx = useContext(EmployeeContext);
-  const authCtx = useContext(AuthContext);
 
   const { handleAddEmployee, handleCloseAdd, openAdd } = employeeCtx;
-  const { user } = authCtx;
   const { data, error, sendRequest, status } = useHttp(createEmployee);
   const [role, setRole] = useState(null);
   const onSubmit = (data) => {
-    console.log({ ...data, roleId: role.id, companyId: user.company._id });
-    // sendRequest(data);
+    console.log({ ...data });
+    sendRequest(data);
   };
 
   React.useEffect(() => {
@@ -57,17 +54,18 @@ const AddEmployeeForm = () => {
         <DialogContent>
           <Stack mt={1} spacing={2}>
             <TextField
-              {...register('firstName')}
-              label="Tên"
-              required
-              placeholder="Tên"
-            />
-            <TextField
               {...register('lastName')}
               label="Họ"
               required
               placeholder="Họ"
             />
+            <TextField
+              {...register('firstName')}
+              label="Tên"
+              required
+              placeholder="Tên"
+            />
+
             <TextField
               {...register('email')}
               type="email"

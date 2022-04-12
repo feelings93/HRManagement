@@ -31,11 +31,10 @@ export const createEmployee = async (employee) => {
 
 export const editEmployee = async (employee) => {
   try {
-    const response = await axios.patch(`/employees/${employee.id}`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.put(
+      `/api/v1/employees/${employee._id}`,
+      employee
+    );
     return response.data;
   } catch (err) {
     throw new Error(err);
