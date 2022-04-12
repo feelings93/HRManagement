@@ -2,14 +2,11 @@ import { axios, bearerHeader } from '../config';
 
 export const getEmployees = async () => {
   try {
-    return [];
-    const response = await axios.get('/employees', {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.get('/api/v1/employees/all');
     return response.data;
   } catch (err) {
+    if (err.response.data.message === "The company doesn't have any employee")
+      return [];
     throw new Error(err);
   }
 };
@@ -25,11 +22,7 @@ export const getEmployee = async (id) => {
 
 export const createEmployee = async (employee) => {
   try {
-    const response = await axios.post(`/employees`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.post(`/api/v1/employees/create`, employee);
     return response.data;
   } catch (err) {
     throw new Error(err);

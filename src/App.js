@@ -15,6 +15,7 @@ import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import { useCookies } from 'react-cookie';
 import EmployeeContextProvider from './store/employee-context';
+import Register from './pages/Register';
 
 const theme = createTheme({
   palette: {
@@ -82,6 +83,7 @@ function App() {
       <Routes>
         <Route element={<RedirectWhenSignedInRoute />}>
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
         </Route>
         <Route element={<PrivateOutlet />}>
           <Route exact path="/" element={<MainLayout />}>

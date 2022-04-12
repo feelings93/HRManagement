@@ -10,14 +10,14 @@ export const login = async ({ username, password }) => {
   }
 };
 
-export const signup = async ({ email, password, name }) => {
+export const signup = async ({ username, email, password }) => {
   try {
     const response = await axios.post(
-      '/auth/signup',
-      { email, password, name },
+      '/register',
+      { username, email, password },
       {}
     );
-    return response.data.accessToken;
+    return response.data;
   } catch (err) {
     throw new Error(err.response.data.message);
   }
