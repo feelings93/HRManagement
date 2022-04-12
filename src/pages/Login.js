@@ -40,7 +40,7 @@ const Login = () => {
   }, [data, error, setUser, status]);
 
   return (
-    <Grid container minHeight="100vh">
+    <Grid flexDirection="row-reverse" container minHeight="100vh">
       <Grid item xs={12} sm={6} md={5} lg={4} p={8}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={2}>
@@ -99,7 +99,7 @@ const Login = () => {
         justifyContent="center"
         display="flex"
       >
-        <img src={loginLogo} alt="login" width="50%"></img>
+        <img src={loginLogo} alt="login" width="70%"></img>
       </Grid>
     </Grid>
   );
