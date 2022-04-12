@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 export const AuthContext = React.createContext({
   user: null,
+  setUser: () => {},
 });
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
-
+  console.log(user);
   const contextValue = {
     user,
     setUser,
