@@ -139,7 +139,7 @@ const Register = () => {
         justifyContent="center"
         display="flex"
       >
-        <img src={registerLogo} alt="register" width="70%"></img>
+        <img src={registerLogo} alt="register" width="50%"></img>
       </Grid>
     </Grid>
   );
