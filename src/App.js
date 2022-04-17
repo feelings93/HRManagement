@@ -8,6 +8,7 @@ import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
 import Employee from './pages/Employee';
 import Department from './pages/Department';
+import Role from './pages/Role';
 import Rule from './pages/Rule';
 import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
@@ -15,6 +16,7 @@ import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import { useCookies } from 'react-cookie';
 import EmployeeContextProvider from './store/employee-context';
+import RoleContextProvider from './store/role-context';
 import Register from './pages/Register';
 
 const theme = createTheme({
@@ -99,6 +101,13 @@ function App() {
               }
             />
             <Route exact path="department" element={<Department />} />
+            <Route exact path="role" 
+              element={
+                <RoleContextProvider>
+                  <Role />
+                </RoleContextProvider>
+              } 
+            />
             <Route exact path="rule" element={<Rule />} />
             <Route exact path="report" element={<Report />} />
           </Route>
