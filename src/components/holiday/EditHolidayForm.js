@@ -26,7 +26,7 @@ const EditHolidayForm = () => {
 
   const onSubmit = (data) => {
     console.log({ _id: editHolidayObj._id, ...data, repeatYearly });
-    sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
+    // sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
   };
 
   React.useEffect(() => {
@@ -34,7 +34,7 @@ const EditHolidayForm = () => {
       if (data) {
         swal(
           'Thành công',
-          'Bạn đã chỉnh sửa thông tin nhân viên thành công',
+          'Bạn đã chỉnh sửa thông tin ngày nghỉ lễ thành công',
           'success'
         );
         handleEditHoliday(data);
@@ -46,7 +46,7 @@ const EditHolidayForm = () => {
     <Dialog open={openEdit}>
       {status === 'pending' && <LinearProgress />}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Chỉnh sửa thông tin nhân viên</DialogTitle>
+        <DialogTitle>Chỉnh sửa thông tin ngày nghỉ lễ</DialogTitle>
         <DialogContent>
           <Stack mt={1} spacing={2}>
             <TextField id="id" label="Id" disabled value={editHolidayObj._id} />

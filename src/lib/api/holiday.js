@@ -7,7 +7,7 @@ export const getHolidays = async () => {
   } catch (err) {
     if (err.response.data.message === "The company doesn't have any holiday")
       return [];
-      return [];
+      return [{_id: 1, name: '30/4 1/5', startDate: '2022-05-06', numberOfDaysOff: 2, repeatYearly: true}];
     throw new Error(err);
   }
 };
@@ -23,6 +23,7 @@ export const getHoliday = async (id) => {
 
 export const createHoliday = async (holiday) => {
   try {
+    holiday.numberOfDaysOff = Number(holiday.numberOfDaysOff);
     const response = await axios.post(`/api/v1/holidays/create`, holiday);
     return response.data;
   } catch (err) {
