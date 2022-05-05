@@ -15,6 +15,8 @@ import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import EmployeeContextProvider from './store/employee-context';
 import Register from './pages/Register';
+import HolidayContextProvider from './store/holiday-context';
+import Holiday from './pages/Holiday';
 
 const theme = createTheme({
   palette: {
@@ -96,6 +98,15 @@ function App() {
                 <EmployeeContextProvider>
                   <Employee />
                 </EmployeeContextProvider>
+              }
+            />
+            <Route
+              exact
+              path="holiday"
+              element={
+                <HolidayContextProvider>
+                  <Holiday />
+                </HolidayContextProvider>
               }
             />
             <Route exact path="department" element={<Department />} />

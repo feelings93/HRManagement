@@ -2,6 +2,7 @@ import {
   Analytics,
   Category,
   Dashboard,
+  HolidayVillage,
   Person,
   Pets,
 } from '@mui/icons-material';
@@ -39,6 +40,11 @@ const tabList = [
   //   icon: <Person />,
   //   url: 'user',
   // },
+  {
+    name: 'Ngày lễ',
+    icon: <HolidayVillage />,
+    url: 'holiday',
+  },
 ];
 
 const TabList = () => {
