@@ -7,7 +7,6 @@ import Login from './pages/Login';
 import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
 import Employee from './pages/Employee';
-import Department from './pages/Department';
 import Rule from './pages/Rule';
 import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
@@ -62,16 +61,12 @@ function RedirectWhenSignedInRoute() {
 }
 
 function App() {
-
-
   const authCtx = useContext(AuthContext);
   const { setUser } = authCtx;
-  const { data, status, sendRequest } = useHttp(
-    getProfile,
-  );
+  const { data, status, sendRequest } = useHttp(getProfile);
   React.useEffect(() => {
     sendRequest();
-  }, [ sendRequest, setUser]);
+  }, [sendRequest, setUser]);
   React.useEffect(() => {
     if (status === 'completed') {
       if (data) {
@@ -110,7 +105,6 @@ function App() {
                 </HolidayContextProvider>
               }
             />
-            <Route exact path="department" element={<Department />} />
             <Route exact path="rule" element={<Rule />} />
             <Route exact path="company" element={<Company />} />
             <Route exact path="report" element={<Report />} />

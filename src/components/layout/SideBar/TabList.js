@@ -1,10 +1,8 @@
 import {
   Analytics,
   Business,
-  Category,
   Dashboard,
   HolidayVillage,
-  Person,
   Pets,
 } from '@mui/icons-material';
 import React from 'react';
@@ -17,11 +15,6 @@ const tabList = [
     url: 'overview',
   },
   {
-    name: 'Phòng ban',
-    icon: <Category />,
-    url: 'department',
-  },
-  { 
     name: 'Nhân viên',
     icon: <Pets />,
     url: 'employee',
