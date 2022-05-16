@@ -1,5 +1,6 @@
 import {
   Analytics,
+  Business,
   Category,
   Dashboard,
   HolidayVillage,
@@ -34,6 +35,11 @@ const tabList = [
     name: 'Báo cáo',
     icon: <Analytics />,
     url: 'report',
+  },
+  {
+    name: 'Công ty',
+    icon: <Business />,
+    url: 'company',
   },
   // {
   //   name: 'Người dùng',

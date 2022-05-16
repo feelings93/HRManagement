@@ -15,6 +15,7 @@ import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import EmployeeContextProvider from './store/employee-context';
 import Register from './pages/Register';
+import Company from './pages/Company';
 import HolidayContextProvider from './store/holiday-context';
 import Holiday from './pages/Holiday';
 
@@ -111,6 +112,7 @@ function App() {
             />
             <Route exact path="department" element={<Department />} />
             <Route exact path="rule" element={<Rule />} />
+            <Route exact path="company" element={<Company />} />
             <Route exact path="report" element={<Report />} />
           </Route>
         </Route>
