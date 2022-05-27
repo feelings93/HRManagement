@@ -19,12 +19,12 @@ const AddHolidayForm = () => {
   const { register, handleSubmit } = useForm();
   const holidayCtx = useContext(HolidayContext);
 
-  const { handleAddHoliday, handleCloseAdd, openAdd } = holidayCtx;
+  const { setHolidays, handleCloseAdd, openAdd } = holidayCtx;
   const { data, error, sendRequest, status } = useHttp(createHoliday);
   const [repeatYearly, setRepeatYearly] = useState(true);
   const onSubmit = (data) => {
-    console.log({ ...data, repeatYearly });
-    // sendRequest(data);
+    // console.log({ ...data, repeatYearly });
+    sendRequest({ ...data, repeatYearly });
   };
 
   React.useEffect(() => {
@@ -35,11 +35,11 @@ const AddHolidayForm = () => {
           'Bạn đã thêm ngày nghỉ lễ mới thành công',
           'success'
         );
-        handleAddHoliday(data);
+        setHolidays(data?.company?.holidays);
         handleCloseAdd();
       } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra', 'error');
     }
-  }, [data, status, error, handleCloseAdd, handleAddHoliday]);
+  }, [data, status, error, handleCloseAdd, setHolidays]);
   return (
     <Dialog open={openAdd}>
       {status === 'pending' && <LinearProgress />}

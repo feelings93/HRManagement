@@ -25,18 +25,22 @@ const EditHolidayForm = () => {
   const [repeatYearly, setRepeatYearly] = useState(editHolidayObj.repeatYearly);
 
   const onSubmit = (data) => {
-    console.log({ _id: editHolidayObj._id, ...data, repeatYearly });
-    // sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
+    // console.log({ _id: editHolidayObj._id, ...data, repeatYearly });
+    sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
   };
 
   React.useEffect(() => {
+    const reload = async () => {
+      await swal(
+        'Thành công',
+        'Bạn đã chỉnh sửa thông tin ngày nghỉ lễ thành công',
+        'success'
+      );
+      window.location.reload();
+    };
     if (status === 'completed') {
       if (data) {
-        swal(
-          'Thành công',
-          'Bạn đã chỉnh sửa thông tin ngày nghỉ lễ thành công',
-          'success'
-        );
+        reload();
         handleEditHoliday(data);
         handleCloseEdit();
       } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra rui', 'error');
