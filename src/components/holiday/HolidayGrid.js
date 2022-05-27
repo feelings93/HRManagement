@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import { Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { HolidayContext } from '../../store/holiday-context';
+import moment from 'moment';
 
 function partial(fn, ...args) {
   return fn.bind(fn, ...args);
@@ -12,16 +13,13 @@ function partial(fn, ...args) {
 
 const HolidayGrid = () => {
   const holidayCtx = useContext(HolidayContext);
-  const {
-    searchHolidays,
-    handleChangeEditHoliday,
-  } = holidayCtx;
+  const { searchHolidays, handleChangeEditHoliday } = holidayCtx;
   const columns = [
     {
       field: '_id',
       headerName: 'Id',
       editable: false,
-      width: 250
+      width: 250,
     },
     {
       field: 'name',
@@ -32,13 +30,16 @@ const HolidayGrid = () => {
     {
       field: 'startDate',
       headerName: 'Ngày bắt đầu',
+      valueGetter: (params) => {
+        return moment(params.row.startDate).format('DD-MM-yyyy', true);
+      },
       width: 200,
       editable: false,
     },
     {
       field: 'repeatYearly',
       headerName: 'Lặp lại hằng năm',
-      valueGetter: (params) => params.row.repeatYearly ? 'Có' : 'Không',
+      valueGetter: (params) => (params.row.repeatYearly ? 'Có' : 'Không'),
       width: 200,
       editable: false,
     },
