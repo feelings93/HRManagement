@@ -12,11 +12,11 @@ import { updateCompanyInfo } from '../../lib/api/company';
 import swal from 'sweetalert';
 import { LinearProgress } from '@mui/material';
 import { CompanyContext } from '../../store/company-context';
-const CompanyInfo = ({ company }) => {
+const CompanyInfo = () => {
   const { sendRequest, data, error, status } = useHttp(updateCompanyInfo);
   const [edit, setEdit] = useState(false);
 
-  const { setCompany } = useContext(CompanyContext);
+  const { company, setCompany } = useContext(CompanyContext);
   const [name, setName] = useState(company?.name);
   const [phone, setPhone] = useState(company?.phone);
   const [address, setAddress] = useState(company?.address);
@@ -28,6 +28,13 @@ const CompanyInfo = ({ company }) => {
       address,
     });
   };
+
+  useEffect(() => {
+    setName(company?.name);
+    setPhone(company?.phone);
+    setAddress(company?.address);
+  }, [company]);
+
   useEffect(() => {
     if (status === 'completed') {
       if (data) {
@@ -38,7 +45,7 @@ const CompanyInfo = ({ company }) => {
         swal('Thất bại', error, 'error');
       }
     }
-  }, [company, data, error, setCompany, status]);
+  }, [data, error, setCompany, status]);
 
   return (
     <Card variant="outlined">

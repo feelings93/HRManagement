@@ -41,6 +41,18 @@ export const updateCompanyInfo = async (company) => {
   }
 };
 
+export const updateCompanyRule = async (rule) => {
+    try {
+      const response = await axios.put(
+        `/api/v1/company/rules`,
+        rule
+      );
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
 export const delEmployee = async (employee) => {
   try {
     const response = await axios.delete(`/employees/${employee.id}`, employee, {

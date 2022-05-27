@@ -17,6 +17,8 @@ import Register from './pages/Register';
 import Company from './pages/Company';
 import HolidayContextProvider from './store/holiday-context';
 import Holiday from './pages/Holiday';
+import DetailEmployee from './pages/DetailEmployee';
+import CompanyContextProvider from './store/company-context';
 
 const theme = createTheme({
   palette: {
@@ -105,8 +107,17 @@ function App() {
                 </HolidayContextProvider>
               }
             />
+            <Route exact path="employee/:id" element={<DetailEmployee />} />
             <Route exact path="rule" element={<Rule />} />
-            <Route exact path="company" element={<Company />} />
+            <Route
+              exact
+              path="company"
+              element={
+                <CompanyContextProvider>
+                  <Company />
+                </CompanyContextProvider>
+              }
+            />
             <Route exact path="report" element={<Report />} />
           </Route>
         </Route>

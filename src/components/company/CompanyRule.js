@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
@@ -7,17 +7,59 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
-import { useForm } from 'react-hook-form';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import moment from 'moment';
+import useHttp from '../../hooks/use-http';
+import { updateCompanyRule } from '../../lib/api/company';
+import { useEffect } from 'react';
+import { CompanyContext } from '../../store/company-context';
+import swal from 'sweetalert';
 
-const CompanyRule = ({ company }) => {
+const CompanyRule = () => {
+  const { sendRequest, data, error, status } = useHttp(updateCompanyRule);
+  const { company, handleChangeRule } = useContext(CompanyContext);
   const [edit, setEdit] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const [startWork, setStartWork] = useState(moment(company?.rule?.startWork));
+  const [endWork, setEndWork] = useState(moment(company?.rule?.endWork));
+  const [allowedLateTime, setAllowedLateTime] = useState(
+    moment(company?.rule?.allowedLateTime)
+  );
+  const [maxLateTime, setMaxLateTime] = useState(
+    moment(company?.rule?.maxLateTime)
+  );
 
-  const onSubmit = (data) => console.log(data);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendRequest({
+      startWork: moment(startWork, 'HH:mm').toDate().toISOString(),
+      endWork: moment(endWork, 'HH:mm').toDate().toISOString(),
+      maxLateTime: moment(maxLateTime, 'HH:mm').toDate().toISOString(),
+      allowedLateTime: moment(allowedLateTime, 'HH:mm').toDate().toISOString(),
+    });
+  };
+
+  useEffect(() => {
+    setStartWork(moment(company?.rule?.startWork));
+    setEndWork(moment(company?.rule?.endWork));
+    setMaxLateTime(moment(company?.rule?.maxLateTime));
+    setAllowedLateTime(moment(company?.rule?.allowedLateTime));
+  }, [company]);
+
+  useEffect(() => {
+    if (status === 'completed') {
+      if (data) {
+        swal('Thành công', 'Cập nhật quy định công ty thành công', 'success');
+        handleChangeRule(data);
+        setEdit(false);
+      } else {
+        swal('Thất bại', error, 'error');
+      }
+    }
+  }, [data, error, handleChangeRule, status]);
 
   return (
     <Card variant="outlined">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <CardHeader
           title={<Typography variant="h6">Quy định</Typography>}
           action={
@@ -35,6 +77,10 @@ const CompanyRule = ({ company }) => {
                 <Button
                   onClick={() => {
                     setEdit(false);
+                    setStartWork(moment(company?.rule?.startWork));
+                    setEndWork(moment(company?.rule?.endWork));
+                    setMaxLateTime(moment(company?.rule?.maxLateTime));
+                    setAllowedLateTime(moment(company?.rule?.allowedLateTime));
                   }}
                   variant="text"
                 >
@@ -52,38 +98,82 @@ const CompanyRule = ({ company }) => {
           <Stack spacing={2}>
             <Stack direction="row" justifyContent="space-between">
               <Typography width="200px" variant="subtitle1">
-                Tên
+                Thời gian bắt đầu làm
               </Typography>
-              <TextField
+              <TimePicker
                 disabled={!edit}
-                defaultValue={company?.rule?.startWork}
-                {...register('startWork')}
-                fullWidth
-                size="small"
+                ampm={false}
+                openTo="hours"
+                views={['hours', 'minutes']}
+                inputFormat="HH:mm"
+                mask="__:__"
+                onChange={(value) => {
+                  setStartWork(value);
+                }}
+                value={startWork}
+                renderInput={(params) => (
+                  <TextField size="small" required {...params} />
+                )}
               />
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography width="200px" variant="subtitle1">
-                Địa chỉ
+                Thời gian kết thúc làm
               </Typography>
-              <TextField
+              <TimePicker
                 disabled={!edit}
-                defaultValue={company?.rule?.endWork}
-                {...register('endWork')}
-                fullWidth
-                size="small"
+                ampm={false}
+                openTo="hours"
+                views={['hours', 'minutes']}
+                inputFormat="HH:mm"
+                mask="__:__"
+                onChange={(value) => {
+                  setEndWork(value);
+                }}
+                value={endWork}
+                renderInput={(params) => (
+                  <TextField size="small" required {...params} />
+                )}
               />
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography width="200px" variant="subtitle1">
-                Số điện thoại
+                Thời gian cho phép trễ
               </Typography>
-              <TextField
+              <TimePicker
                 disabled={!edit}
-                defaultValue={company?.rule?.allowedLateTime}
-                {...register('allowedLateTime')}
-                fullWidth
-                size="small"
+                ampm={false}
+                openTo="hours"
+                views={['hours', 'minutes']}
+                inputFormat="HH:mm"
+                mask="__:__"
+                onChange={(value) => {
+                  setAllowedLateTime(value);
+                }}
+                value={allowedLateTime}
+                renderInput={(params) => (
+                  <TextField size="small" required {...params} />
+                )}
+              />
+            </Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography width="200px" variant="subtitle1">
+                Thời gian trễ tối đa
+              </Typography>
+              <TimePicker
+                disabled={!edit}
+                ampm={false}
+                openTo="hours"
+                views={['hours', 'minutes']}
+                inputFormat="HH:mm"
+                mask="__:__"
+                onChange={(value) => {
+                  setMaxLateTime(value);
+                }}
+                value={maxLateTime}
+                renderInput={(params) => (
+                  <TextField size="small" required {...params} />
+                )}
               />
             </Stack>
           </Stack>

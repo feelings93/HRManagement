@@ -3,17 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from 'react-cookie';
 import AuthContextProvider from './store/auth-context';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <CookiesProvider>
         <AuthContextProvider>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
           <App />
+
+          </LocalizationProvider>
         </AuthContextProvider>
       </CookiesProvider>
     </BrowserRouter>
