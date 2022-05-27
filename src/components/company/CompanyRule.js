@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 
-const CompanyRule = ({ user }) => {
+const CompanyRule = ({ company }) => {
   const [edit, setEdit] = useState(false);
   const { register, handleSubmit } = useForm();
 
@@ -56,7 +56,7 @@ const CompanyRule = ({ user }) => {
               </Typography>
               <TextField
                 disabled={!edit}
-                defaultValue={user?.company?.rule?.startWork}
+                defaultValue={company?.rule?.startWork}
                 {...register('startWork')}
                 fullWidth
                 size="small"
@@ -68,7 +68,7 @@ const CompanyRule = ({ user }) => {
               </Typography>
               <TextField
                 disabled={!edit}
-                defaultValue={user?.company?.rule?.endWork}
+                defaultValue={company?.rule?.endWork}
                 {...register('endWork')}
                 fullWidth
                 size="small"
@@ -80,7 +80,7 @@ const CompanyRule = ({ user }) => {
               </Typography>
               <TextField
                 disabled={!edit}
-                defaultValue={user?.company?.rule?.allowedLateTime}
+                defaultValue={company?.rule?.allowedLateTime}
                 {...register('allowedLateTime')}
                 fullWidth
                 size="small"
