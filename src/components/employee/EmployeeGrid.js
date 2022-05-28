@@ -6,12 +6,14 @@ import Switch from '@mui/material/Switch';
 import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { EmployeeContext } from '../../store/employee-context';
+import { useNavigate } from 'react-router-dom';
 
 function partial(fn, ...args) {
   return fn.bind(fn, ...args);
 }
 
 const EmployeeGrid = () => {
+  const navigate = useNavigate();
   const employeeCtx = useContext(EmployeeContext);
   const {
     searchEmployees,
@@ -24,7 +26,7 @@ const EmployeeGrid = () => {
       field: '_id',
       headerName: 'Id',
       editable: false,
-      width: 250
+      width: 250,
     },
     {
       field: 'lastName',
@@ -88,7 +90,12 @@ const EmployeeGrid = () => {
       renderCell: (params) => {
         return (
           <Stack direction="row">
-            <IconButton onClick={partial(handleChangeEditEmployee, params.row)}>
+            <IconButton
+              onClick={(event) => {
+                event.stopPropagation();
+                handleChangeEditEmployee(params.row);
+              }}
+            >
               <Edit color="primary" />
             </IconButton>
             {/* <Switch
@@ -116,6 +123,10 @@ const EmployeeGrid = () => {
             disableSelectionOnClick
             disableColumnMenu
             rowsPerPageOptions={[5, 25, 50]}
+            onCellClick={(params, event) => {
+              event.stopPropagation();
+              navigate(params.row._id);
+            }}
           />
         </div>
       </div>
