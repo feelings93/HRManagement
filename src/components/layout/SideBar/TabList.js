@@ -20,11 +20,6 @@ const tabList = [
     url: 'employee',
   },
   {
-    name: 'Quy định',
-    icon: <Dashboard />,
-    url: 'rule',
-  },
-  {
     name: 'Báo cáo',
     icon: <Analytics />,
     url: 'report',

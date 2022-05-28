@@ -7,7 +7,6 @@ import Login from './pages/Login';
 import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
 import Employee from './pages/Employee';
-import Rule from './pages/Rule';
 import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
 import { getProfile } from './lib/api/auth';
@@ -108,7 +107,6 @@ function App() {
               }
             />
             <Route exact path="employee/:id" element={<DetailEmployee />} />
-            <Route exact path="rule" element={<Rule />} />
             <Route
               exact
               path="company"
