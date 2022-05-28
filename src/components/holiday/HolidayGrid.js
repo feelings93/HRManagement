@@ -16,15 +16,15 @@ const HolidayGrid = () => {
   const { searchHolidays, handleChangeEditHoliday } = holidayCtx;
   const columns = [
     {
-      field: '_id',
-      headerName: 'Id',
+      field: 'stt',
+      headerName: 'STT',
       editable: false,
-      width: 250,
+      width: 100,
     },
     {
       field: 'name',
       headerName: 'Tên dịp lễ',
-      width: 100,
+      width: 200,
       editable: false,
     },
     {

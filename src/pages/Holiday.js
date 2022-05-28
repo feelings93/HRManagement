@@ -16,21 +16,15 @@ import EditHolidayForm from '../components/holiday/EditHolidayForm';
 const Holiday = () => {
   const { data, error, status, sendRequest } = useHttp(getHolidays, true);
   const holidayCtx = useContext(HolidayContext);
-  const {
-    setHolidays,
-    openAdd,
-    openEdit,
-    handleOpenAdd,
-    setQuery,
-    query,
-  } = holidayCtx;
+  const { setHolidays, openAdd, openEdit, handleOpenAdd, setQuery, query } =
+    holidayCtx;
   React.useEffect(() => {
     sendRequest();
   }, [sendRequest]);
 
   React.useEffect(() => {
     if (status === 'completed' && data) {
-      setHolidays(data);
+      setHolidays(data.map((x, index) => ({ ...x, stt: index + 1 })));
     }
   }, [data, status, setHolidays]);
 
