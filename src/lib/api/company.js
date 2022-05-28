@@ -1,67 +1,41 @@
-import { axios, bearerHeader } from '../config';
+import { axios } from '../config';
 
-export const getEmployees = async () => {
+export const createPenaltyType = async (type) => {
   try {
-    const response = await axios.get('/api/v1/employees/all');
+    const response = await axios.post(`/api/v1/company/penalty-types`, {
+      penalty: type,
+    });
     return response.data;
   } catch (err) {
-    if (err.response.data.message === "The company doesn't have any employee")
-      return [];
-    throw new Error(err);
+    throw new Error(err.response.data?.error);
   }
 };
 
-export const getEmployee = async (id) => {
+export const deletePenaltyType = async (type) => {
   try {
-    const response = await axios.get(`/employees/${id}`);
+    const response = await axios.delete(
+      `/api/v1/company/penalty-types/${type}`
+    );
     return response.data;
   } catch (err) {
-    throw new Error(err);
-  }
-};
-
-export const createEmployee = async (employee) => {
-  try {
-    const response = await axios.post(`/api/v1/employees/create`, employee);
-    return response.data;
-  } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.error);
   }
 };
 
 export const updateCompanyInfo = async (company) => {
   try {
-    const response = await axios.put(
-      `/api/v1/company`,
-      company
-    );
+    const response = await axios.put(`/api/v1/company`, company);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.error);
   }
 };
 
 export const updateCompanyRule = async (rule) => {
-    try {
-      const response = await axios.put(
-        `/api/v1/company/rules`,
-        rule
-      );
-      return response.data;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
-export const delEmployee = async (employee) => {
   try {
-    const response = await axios.delete(`/employees/${employee.id}`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.put(`/api/v1/company/rules`, rule);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.error);
   }
 };

@@ -5,6 +5,7 @@ import CompanyRule from '../components/company/CompanyRule';
 import useHttp from '../hooks/use-http';
 import { getProfile } from '../lib/api/auth';
 import { CompanyContext } from '../store/company-context';
+import CompanyPenaltyType from '../components/company/CompanyPenaltyType';
 
 const Company = () => {
   const { sendRequest, data, status, error } = useHttp(getProfile, true);
@@ -31,7 +32,9 @@ const Company = () => {
           <CompanyRule />
         </Grid>
       </Grid>
-      <Grid item xs={12} md={6}></Grid>
+      <Grid item xs={12} md={6}>
+        <CompanyPenaltyType/>
+      </Grid>
     </Grid>
   );
 };
