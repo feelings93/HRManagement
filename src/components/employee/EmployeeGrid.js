@@ -7,6 +7,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { EmployeeContext } from '../../store/employee-context';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function partial(fn, ...args) {
   return fn.bind(fn, ...args);
@@ -23,21 +24,23 @@ const EmployeeGrid = () => {
   } = employeeCtx;
   const columns = [
     {
-      field: '_id',
+      field: 'workID',
       headerName: 'Id',
       editable: false,
-      width: 250,
+      width: 50,
     },
     {
-      field: 'lastName',
-      headerName: 'Họ',
-      width: 100,
+      field: 'name',
+      headerName: 'Họ tên',
+      valueGetter: (params) => params.row.lastName + ' ' + params.row.firstName,
+      width: 150,
       editable: false,
     },
     {
-      field: 'firstName',
-      headerName: 'Tên',
-      width: 200,
+      field: 'gender',
+      headerName: 'Giới tính',
+      valueGetter: (params) => (params.row.gender === 1 ? 'Nam' : 'Nữ'),
+      width: 130,
       editable: false,
     },
     {
@@ -53,8 +56,20 @@ const EmployeeGrid = () => {
       editable: false,
     },
     {
+      field: 'startDate',
+      headerName: 'Ngày bắt đầu',
+      valueGetter: (params) => {
+        return moment(params.row.startDate).format('DD-MM-yyyy', true);
+      },
+      width: 200,
+      editable: false,
+    },
+    {
       field: 'resignDate',
       headerName: 'Ngày thôi việc',
+      valueGetter: (params) => {
+        return moment(params.row.resignDate).format('DD-MM-yyyy', true);
+      },
       width: 200,
       editable: false,
     },

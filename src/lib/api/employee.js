@@ -7,7 +7,7 @@ export const getEmployees = async () => {
   } catch (err) {
     if (err.response.data.message === "The company doesn't have any employee")
       return [];
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -16,7 +16,7 @@ export const getEmployee = async (id) => {
     const response = await axios.get(`/employees/${id}`);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -25,7 +25,8 @@ export const createEmployee = async (employee) => {
     const response = await axios.post(`/api/v1/employees/create`, employee);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
+
   }
 };
 
@@ -37,7 +38,8 @@ export const editEmployee = async (employee) => {
     );
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
+
   }
 };
 
@@ -50,6 +52,7 @@ export const delEmployee = async (employee) => {
     });
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
+
   }
 };
