@@ -66,7 +66,9 @@ const EmployeeContextProvider = (props) => {
 
   const handleDelEmployee = useCallback(
     (employee) => {
-      const newEmployees = employees.filter((item) => item._id !== employee._id);
+      const newEmployees = employees.filter(
+        (item) => item._id !== employee._id
+      );
 
       console.log(newEmployees);
       setEmployees(newEmployees);
@@ -125,7 +127,9 @@ const EmployeeContextProvider = (props) => {
     } else {
       setSearchEmployees(
         employees.filter((x) =>
-          x.name.toUpperCase().includes(query.toUpperCase())
+          (x.lastName + ' ' + x.firstName)
+            .toUpperCase()
+            .includes(query.toUpperCase())
         )
       );
     }
