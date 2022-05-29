@@ -1,4 +1,4 @@
-import { axios, bearerHeader } from '../config';
+import { axios } from '../config';
 
 export const getEmployees = async () => {
   try {
@@ -26,7 +26,6 @@ export const createEmployee = async (employee) => {
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
-
   }
 };
 
@@ -39,20 +38,14 @@ export const editEmployee = async (employee) => {
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
-
   }
 };
 
 export const delEmployee = async (employee) => {
   try {
-    const response = await axios.delete(`/employees/${employee.id}`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.delete(`/api/v1/employees/${employee._id}`);
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
-
   }
 };

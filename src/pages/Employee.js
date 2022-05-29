@@ -11,6 +11,7 @@ import AddEmployeeForm from '../components/employee/AddEmployeeForm';
 import EditEmployeeForm from '../components/employee/EditEmployeeForm';
 import EmployeeGrid from '../components/employee/EmployeeGrid';
 import { getEmployees } from '../lib/api/employee';
+import DelEmployeeForm from '../components/employee/DelEmployeeForm';
 
 const Employee = () => {
   const { data, error, status, sendRequest } = useHttp(getEmployees, true);
@@ -20,7 +21,6 @@ const Employee = () => {
     openAdd,
     openEdit,
     openDelete,
-    openActive,
     handleOpenAdd,
     setQuery,
     query,
@@ -76,6 +76,7 @@ const Employee = () => {
       <EmployeeGrid />
       {openAdd && <AddEmployeeForm />}
       {openEdit && <EditEmployeeForm />}
+      {openDelete && <DelEmployeeForm />}
     </>
   );
 };

@@ -1,17 +1,12 @@
 import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
-import Switch from '@mui/material/Switch';
 import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { EmployeeContext } from '../../store/employee-context';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-function partial(fn, ...args) {
-  return fn.bind(fn, ...args);
-}
 
 const EmployeeGrid = () => {
   const navigate = useNavigate();
@@ -20,7 +15,6 @@ const EmployeeGrid = () => {
     searchEmployees,
     handleChangeEditEmployee,
     handleChangeDelEmployee,
-    handleChangeActiveEmployee,
   } = employeeCtx;
   const columns = [
     {
@@ -73,27 +67,6 @@ const EmployeeGrid = () => {
       width: 200,
       editable: false,
     },
-    // {
-    //   field: 'actived',
-    //   headerName: 'Trạng thái',
-    //   sortable: false,
-    //   headerAlign: 'center',
-    //   align: 'center',
-    //   width: 200,
-    //   editable: false,
-    //   renderCell: (params) => {
-    //     return (
-    //       <Chip
-    //         label={params.row.actived ? 'Đang hoạt động' : 'Ngưng hoạt động'}
-    //         variant={params.row.actived ? 'filled' : 'outlined'}
-    //         color={params.row.actived ? 'success' : 'warning'}
-    //         sx={{
-    //           color: params.row.actived ? '#fff' : 'inherit',
-    //         }}
-    //       />
-    //     );
-    //   },
-    // },
     {
       field: 'action',
       headerName: 'Thao tác',
@@ -118,9 +91,14 @@ const EmployeeGrid = () => {
               onChange={handleChangeActiveEmployee.bind(null, params.row)}
               inputProps={{ 'aria-label': 'controlled' }}
             /> */}
-            {/* <IconButton onClick={partial(handleChangeDelEmployee, params.row)}>
+            <IconButton
+              onClick={(event) => {
+                event.stopPropagation();
+                handleChangeDelEmployee(params.row);
+              }}
+            >
               <Delete />
-            </IconButton> */}
+            </IconButton>
           </Stack>
         );
       },
