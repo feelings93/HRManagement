@@ -20,6 +20,17 @@ const options = [
   { label: 'user', id: 2 },
 ];
 
+const genders = [
+  {
+    id: 1,
+    label: 'Nam',
+  },
+  {
+    id: 2,
+    label: 'Nữ',
+  },
+];
+
 const EditEmployeeForm = () => {
   const { register, handleSubmit } = useForm();
   const employeeCtx = useContext(EmployeeContext);
@@ -27,6 +38,9 @@ const EditEmployeeForm = () => {
     employeeCtx;
   const { data, error, sendRequest, status } = useHttp(editEmployee);
   const [role, setRole] = useState(null);
+  const [gender, setGender] = useState(
+    genders.find((x) => x.id === editEmployeeObj.gender)
+  );
 
   const onSubmit = (data) => {
     console.log({ _id: editEmployeeObj._id, ...data });
@@ -43,7 +57,7 @@ const EditEmployeeForm = () => {
         );
         handleEditEmployee(data);
         handleCloseEdit();
-      } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra rui', 'error');
+      } else if (error) swal('Thất bại', error, 'error');
     }
   }, [data, status, error, handleEditEmployee, handleCloseEdit]);
   return (
@@ -89,6 +103,24 @@ const EditEmployeeForm = () => {
               defaultValue={editEmployeeObj.phone}
             />
             <Autocomplete
+              value={gender}
+              onChange={(event, newValue) => {
+                setGender(newValue);
+              }}
+              id="controllable-states-demo"
+              getOptionLabel={(option) => option.label}
+              options={options}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  required
+                  {...params}
+                  label="Giới tính"
+                  placeholder="Giới tính"
+                />
+              )}
+            />
+            <Autocomplete
               value={role}
               onChange={(event, newValue) => {
                 setRole(newValue);
@@ -104,6 +136,18 @@ const EditEmployeeForm = () => {
                   label="Vai trò"
                   placeholder="Vai trò"
                 />
+              )}
+            />
+            <TextField
+              required
+              {...register('startDate')}
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              label="Ngày bắt đầu"
+              placeholder="Ngày bắt đầu"
+              defaultValue={moment(editEmployeeObj.startDate).format(
+                'yyyy-MM-DD',
+                true
               )}
             />
             <TextField
