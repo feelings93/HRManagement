@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import EmployeeProfile from '../components/employee-detail/EmployeeProfile';
+import EmployeeProfile from './EmployeeProfile';
 import EmployeeClockIns from './EmployeeClockIns';
 import EmployeeSalary from './EmployeeSalary';
 import EmployeeLeaves from './EmployeeLeaves';
 import EmployeePenalties from './EmployeePenalties';
+import EmployeePenaltiesContextProvider from '../store/employee-penalties-context';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,7 +71,9 @@ const DetailEmployee = () => {
         <EmployeeLeaves />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <EmployeePenalties />
+        <EmployeePenaltiesContextProvider>
+          <EmployeePenalties />
+        </EmployeePenaltiesContextProvider>
       </TabPanel>
     </Box>
   );
