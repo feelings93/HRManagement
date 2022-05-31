@@ -9,6 +9,7 @@ import EmployeeSalary from './EmployeeSalary';
 import EmployeeLeaves from './EmployeeLeaves';
 import EmployeePenalties from './EmployeePenalties';
 import EmployeePenaltiesContextProvider from '../store/employee-penalties-context';
+import EmployeeLeavesContextProvider from '../store/employee-leaves-context';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,7 +69,9 @@ const DetailEmployee = () => {
         <EmployeeSalary />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <EmployeeLeaves />
+        <EmployeeLeavesContextProvider>
+          <EmployeeLeaves />
+        </EmployeeLeavesContextProvider>
       </TabPanel>
       <TabPanel value={value} index={4}>
         <EmployeePenaltiesContextProvider>
