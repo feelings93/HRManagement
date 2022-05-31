@@ -12,12 +12,20 @@ import { HolidayContext } from '../store/holiday-context';
 import AddHolidayForm from '../components/holiday/AddHolidayForm';
 import HolidayGrid from '../components/holiday/HolidayGrid';
 import EditHolidayForm from '../components/holiday/EditHolidayForm';
+import DelHolidayForm from '../components/holiday/DelHolidayForm';
 
 const Holiday = () => {
   const { data, error, status, sendRequest } = useHttp(getHolidays, true);
   const holidayCtx = useContext(HolidayContext);
-  const { setHolidays, openAdd, openEdit, handleOpenAdd, setQuery, query } =
-    holidayCtx;
+  const {
+    setHolidays,
+    openAdd,
+    openEdit,
+    openDel,
+    handleOpenAdd,
+    setQuery,
+    query,
+  } = holidayCtx;
   React.useEffect(() => {
     sendRequest();
   }, [sendRequest]);
@@ -69,6 +77,7 @@ const Holiday = () => {
       <HolidayGrid />
       {openAdd && <AddHolidayForm />}
       {openEdit && <EditHolidayForm />}
+      {openDel && <DelHolidayForm />}
     </>
   );
 };

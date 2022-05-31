@@ -10,14 +10,17 @@ export const HolidayContext = React.createContext({
   handleAddHoliday: () => {},
   handleEditHoliday: () => {},
   editHolidayObj: {},
+  delHolidayObj: {},
   setEditHoliday: () => {},
   openEdit: false,
   openAdd: false,
+  openDel: false,
   handleOpenEdit: () => {},
   handleCloseEdit: () => {},
   handleOpenAdd: () => {},
   handleCloseAdd: () => {},
   handleChangeEditHoliday: () => {},
+  handleChangeDelHoliday: () => {},
 });
 
 const HolidayContextProvider = (props) => {
@@ -27,7 +30,9 @@ const HolidayContextProvider = (props) => {
   const [query, setQuery] = React.useState('');
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openDel, setOpenDel] = useState(false);
   const [editHoliday, setEditHoliday] = React.useState(null);
+  const [delHoliday, setDelHoliday] = useState(null);
 
   const handleAddHoliday = useCallback((holiday) => {
     setHolidays((prev) => [...prev, holiday]);
@@ -68,6 +73,15 @@ const HolidayContextProvider = (props) => {
     setOpenAdd(false);
   }, []);
 
+  const handleCloseDel = useCallback(() => {
+    setOpenDel(false);
+  }, []);
+
+  const handleChangeDelHoliday = useCallback((holiday) => {
+    setDelHoliday(holiday);
+    setOpenDel(true);
+  }, []);
+
   React.useEffect(() => {
     if (query === '' || !query) {
       setSearchHolidays(holidays);
@@ -88,30 +102,38 @@ const HolidayContextProvider = (props) => {
       query,
       setQuery,
       editHolidayObj: editHoliday,
+      delHolidayObj: delHoliday,
       handleChangeEditHoliday,
       openEdit,
       openAdd,
+      openDel,
       handleCloseAdd,
       handleCloseEdit,
       handleOpenAdd,
       handleOpenEdit,
+      handleCloseDel,
+      handleChangeDelHoliday,
       handleAddHoliday,
       handleEditHoliday,
     }),
     [
       holidays,
-      query,
       searchHolidays,
+      query,
       editHoliday,
-      handleAddHoliday,
+      delHoliday,
       handleChangeEditHoliday,
+      openEdit,
+      openAdd,
+      openDel,
       handleCloseAdd,
       handleCloseEdit,
-      handleEditHoliday,
       handleOpenAdd,
       handleOpenEdit,
-      openAdd,
-      openEdit,
+      handleCloseDel,
+      handleChangeDelHoliday,
+      handleAddHoliday,
+      handleEditHoliday,
     ]
   );
 

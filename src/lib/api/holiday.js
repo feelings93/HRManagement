@@ -45,11 +45,7 @@ export const editHoliday = async (holiday) => {
 
 export const delHoliday = async (holiday) => {
   try {
-    const response = await axios.delete(`/holidays/${holiday.id}`, holiday, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.delete(`/api/v1/holidays/${holiday._id}`);
     return response.data;
   } catch (err) {
     throw new Error(err);

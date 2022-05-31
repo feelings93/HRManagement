@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 
-import { Edit } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { HolidayContext } from '../../store/holiday-context';
 import moment from 'moment';
@@ -13,7 +13,7 @@ function partial(fn, ...args) {
 
 const HolidayGrid = () => {
   const holidayCtx = useContext(HolidayContext);
-  const { searchHolidays, handleChangeEditHoliday } = holidayCtx;
+  const { searchHolidays, handleChangeEditHoliday, handleChangeDelHoliday } = holidayCtx;
   const columns = [
     {
       field: 'stt',
@@ -62,6 +62,9 @@ const HolidayGrid = () => {
           <Stack direction="row">
             <IconButton onClick={partial(handleChangeEditHoliday, params.row)}>
               <Edit color="primary" />
+            </IconButton>
+            <IconButton onClick={partial(handleChangeDelHoliday, params.row)}>
+              <Delete />
             </IconButton>
           </Stack>
         );
