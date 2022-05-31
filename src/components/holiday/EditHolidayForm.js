@@ -38,7 +38,7 @@ const EditHolidayForm = () => {
         );
         setHolidays(data || []);
         handleCloseEdit();
-      } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra rui', 'error');
+      } else if (error) swal('Thất bại', error, 'error');
     }
   }, [data, status, error, setHolidays, handleCloseEdit]);
   return (

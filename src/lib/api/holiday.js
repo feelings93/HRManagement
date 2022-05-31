@@ -5,10 +5,7 @@ export const getHolidays = async () => {
     const response = await axios.get('/api/v1/holidays/all');
     return response.data;
   } catch (err) {
-    if (err.response.data.message === "The company doesn't have any holiday")
-      return [];
-      return [{_id: 1, name: '30/4 1/5', startDate: '2022-05-06', numberOfDaysOff: 2, repeatYearly: true}];
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -17,7 +14,7 @@ export const getHoliday = async (id) => {
     const response = await axios.get(`/api/v1/holidays/${id}`);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -27,7 +24,7 @@ export const createHoliday = async (holiday) => {
     const response = await axios.post(`/api/v1/holidays/create`, holiday);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -39,7 +36,7 @@ export const editHoliday = async (holiday) => {
     );
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 

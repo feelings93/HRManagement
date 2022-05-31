@@ -37,7 +37,7 @@ const AddHolidayForm = () => {
         );
         setHolidays(data?.company?.holidays);
         handleCloseAdd();
-      } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra', 'error');
+      } else if (error) swal('Thất bại', error, 'error');
     }
   }, [data, status, error, handleCloseAdd, setHolidays]);
   return (
