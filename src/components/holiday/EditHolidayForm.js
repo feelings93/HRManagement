@@ -19,33 +19,28 @@ import { editHoliday } from '../../lib/api/holiday';
 const EditHolidayForm = () => {
   const { register, handleSubmit } = useForm();
   const holidayCtx = useContext(HolidayContext);
-  const { editHolidayObj, handleEditHoliday, handleCloseEdit, openEdit } =
+  const { editHolidayObj, setHolidays, handleCloseEdit, openEdit } =
     holidayCtx;
   const { data, error, sendRequest, status } = useHttp(editHoliday);
   const [repeatYearly, setRepeatYearly] = useState(editHolidayObj.repeatYearly);
 
   const onSubmit = (data) => {
-    // console.log({ _id: editHolidayObj._id, ...data, repeatYearly });
     sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
   };
 
   React.useEffect(() => {
-    const reload = async () => {
-      await swal(
-        'Thành công',
-        'Bạn đã chỉnh sửa thông tin ngày nghỉ lễ thành công',
-        'success'
-      );
-      window.location.reload();
-    };
     if (status === 'completed') {
       if (data) {
-        reload();
-        handleEditHoliday(data);
+        swal(
+          'Thành công',
+          'Bạn đã chỉnh sửa thông tin ngày nghỉ lễ thành công',
+          'success'
+        );
+        setHolidays(data || []);
         handleCloseEdit();
       } else if (error) swal('Thất bại', 'Đã có lỗi xảy ra rui', 'error');
     }
-  }, [data, status, error, handleEditHoliday, handleCloseEdit]);
+  }, [data, status, error, setHolidays, handleCloseEdit]);
   return (
     <Dialog open={openEdit}>
       {status === 'pending' && <LinearProgress />}
