@@ -42,7 +42,7 @@ const EmployeePenalties = () => {
         size="large"
         title="Thêm vi phạm"
       >
-        <AddIcon />
+        <AddIcon sx={{ color: '#fff' }} />
       </Fab>
       <PenaltyGrid />
       {openAdd && <AddPenaltyForm />}

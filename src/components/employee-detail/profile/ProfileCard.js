@@ -21,7 +21,6 @@ const ProfileCard = () => {
   return (
     <Card variant="outlined">
       <CardHeader
-      sx={{background: '#F4F6F9'}}
         title={<Typography variant="h6">Thông tin chung</Typography>}
       />
       <Divider />

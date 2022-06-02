@@ -18,12 +18,7 @@ const CompanyPenaltyType = () => {
       <CardHeader
         title={<Typography variant="h6">Loại vi phạm</Typography>}
         action={
-          <Button
-            onClick={handleOpenAdd}
-            sx={{ color: '#fff' }}
-            variant="contained"
-            color="success"
-          >
+          <Button onClick={handleOpenAdd} variant="text">
             Thêm
           </Button>
         }

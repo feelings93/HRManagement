@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { blue, green } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import Login from './pages/Login';
 import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
@@ -22,7 +22,7 @@ import CompanyContextProvider from './store/company-context';
 const theme = createTheme({
   palette: {
     primary: {
-      main: blue[500],
+      main: '#3AA3CC',
     },
     success: {
       main: green[500],
@@ -34,15 +34,13 @@ const theme = createTheme({
   components: {
     MuiButton: {
       variants: [
-        {
-          props: {
-            variant: 'contained',
+          {
+            props: { variant: "contained" },
             style: {
-              color: '#fff',
+              color: "#fff",
             },
           },
-        },
-      ],
+        ],
     },
   },
 });

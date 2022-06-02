@@ -41,7 +41,7 @@ const EmployeePenalties = () => {
         size="large"
         title="Thêm ngày nghỉ"
       >
-        <AddIcon />
+        <AddIcon sx={{ color: '#fff' }} />
       </Fab>
       <LeaveGrid />
       {openAdd && <AddLeaveForm />}
