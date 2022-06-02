@@ -13,7 +13,7 @@ export const getEmployees = async () => {
 
 export const getEmployee = async (id) => {
   try {
-    const response = await axios.get(`/employees/${id}`);
+    const response = await axios.get(`/api/v1/employees/${id}/details`);
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
