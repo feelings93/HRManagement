@@ -31,9 +31,21 @@ const RoleGrid = () => {
       editable: false,
     },
     {
+      field: 'idPrefix',
+      headerName: 'Prefix',
+      width: 150,
+      editable: false,
+    },
+    {
+      field: 'idPostfix',
+      headerName: 'Postfix',
+      width: 150,
+      editable: false,
+    },
+    {
       field: 'baseSalary',
       headerName: 'Lương cơ bản',
-      width: 200,
+      width: 150,
       editable: false,
     },
     {
