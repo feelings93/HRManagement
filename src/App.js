@@ -20,6 +20,7 @@ import DetailEmployee from './pages/DetailEmployee';
 import CompanyContextProvider from './store/company-context';
 import ClockInsContextProvider from './store/clock-ins-context';
 import ClockIn from './pages/ClockIn';
+import ReportContextProvider from './store/report-context';
 
 const theme = createTheme({
   palette: {
@@ -36,13 +37,13 @@ const theme = createTheme({
   components: {
     MuiButton: {
       variants: [
-          {
-            props: { variant: "contained" },
-            style: {
-              color: "#fff",
-            },
+        {
+          props: { variant: 'contained' },
+          style: {
+            color: '#fff',
           },
-        ],
+        },
+      ],
     },
   },
 });
@@ -125,7 +126,15 @@ function App() {
                 </CompanyContextProvider>
               }
             />
-            <Route exact path="report" element={<Report />} />
+            <Route
+              exact
+              path="report"
+              element={
+                <ReportContextProvider>
+                  <Report />
+                </ReportContextProvider>
+              }
+            />
           </Route>
         </Route>
       </Routes>
