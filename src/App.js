@@ -7,11 +7,13 @@ import Login from './pages/Login';
 import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
 import Employee from './pages/Employee';
+import Role from './pages/Role';
 import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
 import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
 import EmployeeContextProvider from './store/employee-context';
+import RoleContextProvider from './store/role-context';
 import Register from './pages/Register';
 import Company from './pages/Company';
 import HolidayContextProvider from './store/holiday-context';
@@ -97,6 +99,13 @@ function App() {
                   <Employee />
                 </EmployeeContextProvider>
               }
+            />
+            <Route exact path="role" 
+              element={
+                <RoleContextProvider>
+                  <Role />
+                </RoleContextProvider>
+              } 
             />
             <Route
               exact

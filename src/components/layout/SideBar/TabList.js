@@ -21,6 +21,11 @@ const tabList = [
     url: 'employee',
   },
   {
+    name: 'Chức vụ',
+    icon: <Person />,
+    url: 'role',
+  },
+  {
     name: 'Chấm công',
     icon: <LockClock />,
     url: 'clock-in',
