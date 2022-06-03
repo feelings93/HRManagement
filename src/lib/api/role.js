@@ -31,10 +31,7 @@ export const createRole = async (role) => {
 
 export const editRole = async (role) => {
   try {
-    const response = await axios.put(
-      `/api/v1/roles/${role._id}`,
-      role
-    );
+    const response = await axios.put(`/api/v1/roles/${role._id}`, role);
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);

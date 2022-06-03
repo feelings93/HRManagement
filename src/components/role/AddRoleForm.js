@@ -17,23 +17,23 @@ import { RoleContext } from '../../store/role-context';
 const paymentPeriods = [
   {
     id: 1,
-    label: 'Theo tuần',
+    label: 'Theo giờ',
+    register: 'Hourly',
   },
   {
     id: 2,
     label: 'Theo tháng',
+    register: 'Monthly',
   },
 ];
 
 const AddRoleForm = () => {
   const { register, handleSubmit } = useForm();
-  const roleCtx = useContext(RoleContext);
-
-  const { setRoles, handleCloseAdd, openAdd } = roleCtx;
+  const { handleAddRole, handleCloseAdd, openAdd } = useContext(RoleContext);
   const { data, error, sendRequest, status } = useHttp(createRole);
   const [paymentPeriod, setPaymentPeriod] = useState(paymentPeriods[0]);
   const onSubmit = (data) => {
-    sendRequest({ ...data, paymentPeriod: paymentPeriod.id });
+    sendRequest({ ...data, paymentPeriod: paymentPeriod.register });
   };
 
   React.useEffect(() => {
@@ -44,11 +44,11 @@ const AddRoleForm = () => {
           'Bạn đã thêm chức vụ mới thành công',
           'success'
         );
-        setRoles(data?.company?.roles);
+        handleAddRole(data);
         handleCloseAdd();
       } else if (error) swal('Thất bại', error, 'error');
     }
-  }, [data, status, error, handleCloseAdd, setRoles]);
+  }, [data, status, error, handleCloseAdd, handleAddRole]);
 
   return (
     <Dialog open={openAdd}>
@@ -81,6 +81,9 @@ const AddRoleForm = () => {
               label="Lương cơ bản"
               required
               type="number"
+              inputProps={{
+                min: 0,
+              }}
               placeholder="Lương cơ bản"
             />
             <Autocomplete
@@ -106,6 +109,13 @@ const AddRoleForm = () => {
               label="Hệ số"
               required
               type="number"
+              inputProps={{
+                min: 0,
+                step: "0.01"
+              }}
+              onChange={(e) => {
+                e.target.value = parseFloat(e.target.value).toFixed(2)
+              }}
               placeholder="Hệ số"
             />
           </Stack>

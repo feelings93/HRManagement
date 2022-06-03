@@ -17,25 +17,26 @@ import { editRole } from '../../lib/api/role';
 const paymentPeriods = [
   {
     id: 1,
-    label: 'Theo tuần',
+    label: 'Theo giờ',
+    register: 'Hourly',
   },
   {
     id: 2,
     label: 'Theo tháng',
+    register: 'Monthly',
   },
 ];
 
 const EditRoleForm = () => {
   const { register, handleSubmit } = useForm();
-  const roleCtx = useContext(RoleContext);
-  const { editRoleObj, setRoles, handleCloseEdit, openEdit } = roleCtx;
+  const { editRoleObj, setRoles, handleCloseEdit, openEdit } = useContext(RoleContext);
   const { data, error, sendRequest, status } = useHttp(editRole);
   const [paymentPeriod, setPaymentPeriod] = useState(
-    paymentPeriods.find((x) => x.id === editRoleObj.paymentPeriod)
+    paymentPeriods.find((x) => x.register === editRoleObj.paymentPeriod)
   );
 
   const onSubmit = (data) => {
-    sendRequest({ _id: editRoleObj._id, ...data });
+    sendRequest({ _id: editRoleObj._id, ...data, paymentPeriod: paymentPeriod.register });
   };
 
   React.useEffect(() => {
@@ -46,6 +47,7 @@ const EditRoleForm = () => {
           'Bạn đã chỉnh sửa thông tin chức vụ thành công',
           'success'
         );
+        console.log(data);
         setRoles(data || []);
         handleCloseEdit();
       } else if (error) swal('Thất bại', error, 'error');
@@ -86,6 +88,9 @@ const EditRoleForm = () => {
               label="Lương cơ bản"
               required
               type="number"
+              inputProps={{
+                min: 0,
+              }}
               placeholder="Lương cơ bản"
               defaultValue={editRoleObj.baseSalary}
             />
@@ -112,6 +117,13 @@ const EditRoleForm = () => {
               label="Hệ số"
               required
               type="number"
+              inputProps={{
+                min: 0,
+                step: "0.01"
+              }}
+              onChange={(e) => {
+                e.target.value = parseFloat(e.target.value).toFixed(2)
+              }}
               placeholder="Hệ số"
               defaultValue={editRoleObj.otMultiplier}
             />

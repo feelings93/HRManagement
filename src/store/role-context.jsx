@@ -19,8 +19,10 @@ export const RoleContext = React.createContext({
   handleCloseEdit: () => {},
   handleOpenAdd: () => {},
   handleCloseAdd: () => {},
+  handleCloseDel: () => {},
   handleChangeEditRole: () => {},
   handleChangeDelRole: () => {},
+  handleDelRole: () => {},
 });
 
 const RoleContextProvider = (props) => {
@@ -38,8 +40,7 @@ const RoleContextProvider = (props) => {
     setRoles((prev) => [...prev, role]);
   }, []);
 
-  const handleEditRole = useCallback(
-    (role) => {
+  const handleEditRole = useCallback((role) => {
       const newRoles = roles.map((item) => {
         if (item.id === role.id) {
           return role;
@@ -83,6 +84,17 @@ const RoleContextProvider = (props) => {
     setOpenDel(true);
   }, []);
 
+  const handleDelRole = useCallback(
+    (role) => {
+      const newRoles = roles.filter(
+        (item) => item._id !== role._id
+      );
+      console.log(newRoles);
+      setRoles(newRoles);
+    },
+    [roles]
+  );
+
   React.useEffect(() => {
     if (query === '' || !query) {
       setSearchRoles(roles);
@@ -116,6 +128,7 @@ const RoleContextProvider = (props) => {
       handleChangeDelRole,
       handleAddRole,
       handleEditRole,
+      handleDelRole,
     }),
     [
       roles,
@@ -135,6 +148,7 @@ const RoleContextProvider = (props) => {
       handleChangeDelRole,
       handleAddRole,
       handleEditRole,
+      handleDelRole,
     ]
   );
 

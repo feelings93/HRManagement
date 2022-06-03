@@ -51,7 +51,7 @@ const RoleGrid = () => {
     {
       field: 'paymentPeriod',
       headerName: 'Cách tính lương',
-      valueGetter: (params) => (params.row.paymentPeriod === 1 ? 'Theo tuần' : 'Theo tháng'),
+      valueGetter: (params) => (params.row.paymentPeriod === 'Hourly' ? 'Theo giờ' : 'Theo tháng'),
       width: 200,
       editable: false,
     },
