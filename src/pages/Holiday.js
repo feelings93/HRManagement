@@ -6,34 +6,35 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import useHttp from '../hooks/use-http';
-import { EmployeeContext } from '../store/employee-context';
-import AddEmployeeForm from '../components/employee/AddEmployeeForm';
-import EditEmployeeForm from '../components/employee/EditEmployeeForm';
-import EmployeeGrid from '../components/employee/EmployeeGrid';
-import { getEmployees } from '../lib/api/employee';
-import DelEmployeeForm from '../components/employee/DelEmployeeForm';
 
-const Employee = () => {
-  const { data, error, status, sendRequest } = useHttp(getEmployees, true);
-  const employeeCtx = useContext(EmployeeContext);
+import { getHolidays } from '../lib/api/holiday';
+import { HolidayContext } from '../store/holiday-context';
+import AddHolidayForm from '../components/holiday/AddHolidayForm';
+import HolidayGrid from '../components/holiday/HolidayGrid';
+import EditHolidayForm from '../components/holiday/EditHolidayForm';
+import DelHolidayForm from '../components/holiday/DelHolidayForm';
+
+const Holiday = () => {
+  const { data, error, status, sendRequest } = useHttp(getHolidays, true);
+  const holidayCtx = useContext(HolidayContext);
   const {
-    setEmployees,
+    setHolidays,
     openAdd,
     openEdit,
-    openDelete,
+    openDel,
     handleOpenAdd,
     setQuery,
     query,
-  } = employeeCtx;
+  } = holidayCtx;
   React.useEffect(() => {
     sendRequest();
   }, [sendRequest]);
 
   React.useEffect(() => {
     if (status === 'completed' && data) {
-      setEmployees(data);
+      setHolidays(data.map((x, index) => ({ ...x, stt: index + 1 })));
     }
-  }, [data, status, setEmployees]);
+  }, [data, status, setHolidays]);
 
   if (status === 'pending') return <h1>Loading...</h1>;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
@@ -45,7 +46,7 @@ const Employee = () => {
         alignItems="center"
         direction="row"
       >
-        <Typography>Nhân viên</Typography>
+        <Typography>Ngày nghỉ lễ</Typography>
         <Stack spacing={1} alignItems="center" direction="row">
           <TextField
             size="small"
@@ -73,12 +74,12 @@ const Employee = () => {
           </Button>
         </Stack>
       </Stack>
-      <EmployeeGrid />
-      {openAdd && <AddEmployeeForm />}
-      {openEdit && <EditEmployeeForm />}
-      {openDelete && <DelEmployeeForm />}
+      <HolidayGrid />
+      {openAdd && <AddHolidayForm />}
+      {openEdit && <EditHolidayForm />}
+      {openDel && <DelHolidayForm />}
     </>
   );
 };
 
-export default Employee;
+export default Holiday;

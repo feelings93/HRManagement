@@ -2,27 +2,31 @@ import React, { useContext } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { blue, green } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import Login from './pages/Login';
 import MainLayout from './pages/MainLayout';
 import Overview from './pages/Overview';
 import Employee from './pages/Employee';
-import Department from './pages/Department';
 import Role from './pages/Role';
-import Rule from './pages/Rule';
 import Report from './pages/Report';
 import { AuthContext } from './store/auth-context';
 import { getProfile } from './lib/api/auth';
 import useHttp from './hooks/use-http';
-import { useCookies } from 'react-cookie';
 import EmployeeContextProvider from './store/employee-context';
 import RoleContextProvider from './store/role-context';
 import Register from './pages/Register';
+import Company from './pages/Company';
+import HolidayContextProvider from './store/holiday-context';
+import Holiday from './pages/Holiday';
+import DetailEmployee from './pages/DetailEmployee';
+import CompanyContextProvider from './store/company-context';
+import ClockInsContextProvider from './store/clock-ins-context';
+import ClockIn from './pages/ClockIn';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: blue[500],
+      main: '#3AA3CC',
     },
     success: {
       main: green[500],
@@ -34,15 +38,13 @@ const theme = createTheme({
   components: {
     MuiButton: {
       variants: [
-        {
-          props: {
-            variant: 'contained',
+          {
+            props: { variant: "contained" },
             style: {
-              color: '#fff',
+              color: "#fff",
             },
           },
-        },
-      ],
+        ],
     },
   },
 });
@@ -62,15 +64,12 @@ function RedirectWhenSignedInRoute() {
 }
 
 function App() {
-  const [cookies] = useCookies();
-
   const authCtx = useContext(AuthContext);
   const { setUser } = authCtx;
-  const { data, status, sendRequest } = useHttp(getProfile, cookies.session_id);
+  const { data, status, sendRequest } = useHttp(getProfile);
   React.useEffect(() => {
-    if (!cookies.session_id) setUser(null);
-    else sendRequest();
-  }, [cookies.session_id, sendRequest, setUser]);
+    sendRequest();
+  }, [sendRequest, setUser]);
   React.useEffect(() => {
     if (status === 'completed') {
       if (data) {
@@ -100,7 +99,6 @@ function App() {
                 </EmployeeContextProvider>
               }
             />
-            <Route exact path="department" element={<Department />} />
             <Route exact path="role" 
               element={
                 <RoleContextProvider>
@@ -108,7 +106,34 @@ function App() {
                 </RoleContextProvider>
               } 
             />
-            <Route exact path="rule" element={<Rule />} />
+            <Route
+              exact
+              path="clock-in"
+              element={
+                <ClockInsContextProvider>
+                  <ClockIn />
+                </ClockInsContextProvider>
+              }
+            />
+            <Route
+              exact
+              path="holiday"
+              element={
+                <HolidayContextProvider>
+                  <Holiday />
+                </HolidayContextProvider>
+              }
+            />
+            <Route exact path="employee/:id" element={<DetailEmployee />} />
+            <Route
+              exact
+              path="company"
+              element={
+                <CompanyContextProvider>
+                  <Company />
+                </CompanyContextProvider>
+              }
+            />
             <Route exact path="report" element={<Report />} />
           </Route>
         </Route>

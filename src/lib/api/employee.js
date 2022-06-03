@@ -1,4 +1,4 @@
-import { axios, bearerHeader } from '../config';
+import { axios } from '../config';
 
 export const getEmployees = async () => {
   try {
@@ -7,16 +7,16 @@ export const getEmployees = async () => {
   } catch (err) {
     if (err.response.data.message === "The company doesn't have any employee")
       return [];
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
 export const getEmployee = async (id) => {
   try {
-    const response = await axios.get(`/employees/${id}`);
+    const response = await axios.get(`/api/v1/employees/${id}/details`);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -25,32 +25,27 @@ export const createEmployee = async (employee) => {
     const response = await axios.post(`/api/v1/employees/create`, employee);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
 export const editEmployee = async (employee) => {
   try {
-    const response = await axios.patch(`/employees/${employee.id}`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.put(
+      `/api/v1/employees/${employee._id}`,
+      employee
+    );
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
 export const delEmployee = async (employee) => {
   try {
-    const response = await axios.delete(`/employees/${employee.id}`, employee, {
-      headers: {
-        Authorization: bearerHeader,
-      },
-    });
+    const response = await axios.delete(`/api/v1/employees/${employee._id}`);
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };

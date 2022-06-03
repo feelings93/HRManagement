@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 import PropTypes from 'prop-types';
 import Logo from './Logo';
-import dog from '../../../assets/images/dog.svg';
 import TabList from './TabList';
 import { SIDEBAR_WIDTH } from '../../../constants';
 
@@ -14,22 +13,22 @@ const SideBar = (props) => {
     <Stack>
       <Stack mb={4} spacing={2}>
         <Logo />
+        <div></div>
         <TabList />
       </Stack>
-      <img src={dog} alt='dog' />
     </Stack>
   );
   return (
     <Box
-      component='nav'
+      component="nav"
       sx={{
         width: { sm: SIDEBAR_WIDTH },
         flexShrink: { sm: 0 },
       }}
-      aria-label='mailbox folders'
+      aria-label="mailbox folders"
     >
       <Drawer
-        variant='temporary'
+        variant="temporary"
         onClose={handleDrawerToggle}
         open={mobileOpen}
         sx={{
@@ -39,13 +38,14 @@ const SideBar = (props) => {
             width: SIDEBAR_WIDTH,
             px: 2,
             pt: 4,
+            background: '#2D333F',
           },
         }}
       >
         {drawer}
       </Drawer>
       <Drawer
-        variant='permanent'
+        variant="permanent"
         sx={{
           display: { sm: 'block', xs: 'none' },
           '& .MuiDrawer-paper': {
@@ -55,6 +55,7 @@ const SideBar = (props) => {
             pt: 4,
             boxShadow: 'rgb(113 122 131 / 11%) 0px 7px 30px 0px',
             border: 'none',
+            background: '#2D333F',
           },
         }}
         open

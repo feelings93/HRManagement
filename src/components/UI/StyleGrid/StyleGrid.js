@@ -29,10 +29,8 @@ const StyleGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-iconSeparator': {
     display: 'none',
   },
-  '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-    borderRight: `1px solid ${
-      theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'
-    }`,
+  '& .MuiDataGrid-columnHeaders': {
+    backgroundColor: '#EBEEF2',
   },
   '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
     borderBottom: `1px solid ${

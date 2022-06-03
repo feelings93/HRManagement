@@ -1,39 +1,31 @@
 import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import useHttp from '../hooks/use-http';
-import { EmployeeContext } from '../store/employee-context';
-import AddEmployeeForm from '../components/employee/AddEmployeeForm';
-import EditEmployeeForm from '../components/employee/EditEmployeeForm';
-import EmployeeGrid from '../components/employee/EmployeeGrid';
-import { getEmployees } from '../lib/api/employee';
-import DelEmployeeForm from '../components/employee/DelEmployeeForm';
+import { getClockIns } from '../lib/api/clockIn';
+import { ClockInsContext } from '../store/clock-ins-context';
+import AddClockInForm from '../components/clock-in/AddClockInForm';
+import EditClockInForm from '../components/clock-in/EditClockInForm';
+import DelClockInForm from '../components/clock-in/DelClockInForm';
+import ClockInGrid from '../components/clock-in/ClockInGrid';
 
-const Employee = () => {
-  const { data, error, status, sendRequest } = useHttp(getEmployees, true);
-  const employeeCtx = useContext(EmployeeContext);
-  const {
-    setEmployees,
-    openAdd,
-    openEdit,
-    openDelete,
-    handleOpenAdd,
-    setQuery,
-    query,
-  } = employeeCtx;
+const ClockIn = () => {
+  const { data, error, status, sendRequest } = useHttp(getClockIns, true);
+  const holidayCtx = useContext(ClockInsContext);
+  const { setClockIns, openAdd, openEdit, openDel, setQuery, query } =
+    holidayCtx;
   React.useEffect(() => {
     sendRequest();
   }, [sendRequest]);
 
   React.useEffect(() => {
     if (status === 'completed' && data) {
-      setEmployees(data);
+      setClockIns(data.map((x, index) => ({ ...x, stt: index + 1 })));
     }
-  }, [data, status, setEmployees]);
+  }, [data, status, setClockIns]);
 
   if (status === 'pending') return <h1>Loading...</h1>;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
@@ -45,12 +37,12 @@ const Employee = () => {
         alignItems="center"
         direction="row"
       >
-        <Typography>Nhân viên</Typography>
+        <Typography>Chấm công ngày</Typography>
         <Stack spacing={1} alignItems="center" direction="row">
           <TextField
             size="small"
             id="search"
-            label="Tìm kiếm"
+            label="Tìm kiếm nhân viên"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -63,22 +55,14 @@ const Employee = () => {
               ),
             }}
           />
-          <Button
-            onClick={handleOpenAdd}
-            sx={{ color: '#fff' }}
-            variant="contained"
-            color="success"
-          >
-            Thêm
-          </Button>
         </Stack>
       </Stack>
-      <EmployeeGrid />
-      {openAdd && <AddEmployeeForm />}
-      {openEdit && <EditEmployeeForm />}
-      {openDelete && <DelEmployeeForm />}
+      <ClockInGrid />
+      {openAdd && <AddClockInForm />}
+      {openEdit && <EditClockInForm />}
+      {openDel && <DelClockInForm />}
     </>
   );
 };
 
-export default Employee;
+export default ClockIn;
