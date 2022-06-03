@@ -3,97 +3,68 @@ import PropTypes from 'prop-types';
 
 export const RoleContext = React.createContext({
   roles: [],
-  // searchEmployees: [],
-  // setEmployees: () => {},
-  // query: '',
-  // setQuery: () => {},
-  // handleAddEmployee: () => {},
-  // handleEditEmployee: () => {},
-  // editEmployeeObj: {},
-  // delEmployeeObj: {},
-  // activeEmployeeObj: {},
-  // setEditEmployee: () => {},
-  // openEdit: false,
+  searchRoles: [],
+  setRoles: () => {},
+  query: '',
+  setQuery: () => {},
+  handleAddRole: () => {},
+  handleEditRole: () => {},
+  editRoleObj: {},
+  delRoleObj: {},
+  setEditRole: () => {},
+  openEdit: false,
   openAdd: false,
-  // openDelete: false,
-  // openActive: false,
-  // handleOpenEdit: () => {},
-  // handleCloseEdit: () => {},
+  openDel: false,
+  handleOpenEdit: () => {},
+  handleCloseEdit: () => {},
   handleOpenAdd: () => {},
   handleCloseAdd: () => {},
-  // handleOpenDelete: () => {},
-  // handleCloseDelete: () => {},
-  // handleOpenActive: () => {},
-  // handleCloseActive: () => {},
-  // handleChangeEditEmployee: () => {},
-  // handleChangeDelEmployee: () => {},
-  // handleDelEmployee: () => {},
-  // handleChangeActiveEmployee: () => {},
-  // handleActiveEmployee: () => {},
+  handleChangeEditRole: () => {},
+  handleChangeDelRole: () => {},
 });
 
 const RoleContextProvider = (props) => {
   const { children } = props;
-  // const [employees, setEmployees] = useState([]);
-  // const [searchEmployees, setSearchEmployees] = React.useState([]);
-  // const [query, setQuery] = React.useState('');
+  const [roles, setRoles] = useState([]);
+  const [searchRoles, setSearchRoles] = React.useState([]);
+  const [query, setQuery] = React.useState('');
   const [openAdd, setOpenAdd] = React.useState(false);
-  // const [openEdit, setOpenEdit] = React.useState(false);
-  // const [openDelete, setOpenDelete] = React.useState(false);
-  // const [openActive, setOpenActive] = React.useState(false);
-  // const [editEmployee, setEditEmployee] = React.useState(null);
-  // const [delEmployee, setDelEmployee] = React.useState(null);
-  // const [activeEmployee, setActiveEmployee] = React.useState(null);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openDel, setOpenDel] = React.useState(false);
+  const [editRole, setEditRole] = React.useState(null);
+  const [delRole, setDelRole] = React.useState(null);
 
-  // const handleAddEmployee = useCallback((role) => {
-  //   setEmployees((prev) => [...prev, role]);
-  // }, []);
+  const handleAddRole = useCallback((role) => {
+    setRoles((prev) => [...prev, role]);
+  }, []);
 
-  // const handleEditEmployee = useCallback(
-  //   (employee) => {
-  //     const newEmployees = employees.map((item) => {
-  //       if (item.id === employee.id) {
-  //         return employee;
-  //       }
-  //       return item;
-  //     });
+  const handleEditRole = useCallback(
+    (role) => {
+      const newRoles = roles.map((item) => {
+        if (item.id === role.id) {
+          return role;
+        }
+        return item;
+      });
 
-  //     console.log(newEmployees);
-  //     setEmployees(newEmployees);
-  //   },
-  //   [employees]
-  // );
+      console.log(newRoles);
+      setRoles(newRoles);
+    },
+    [roles]
+  );
 
-  // const handleDelEmployee = useCallback(
-  //   (employee) => {
-  //     const newEmployees = employees.filter((item) => item.id !== employee.id);
+  const handleChangeEditRole = useCallback((role) => {
+    setEditRole(role);
+    setOpenEdit(true);
+  }, []);
 
-  //     console.log(newEmployees);
-  //     setEmployees(newEmployees);
-  //   },
-  //   [employees]
-  // );
-  // const handleChangeEditEmployee = useCallback((employee) => {
-  //   setEditEmployee(employee);
-  //   setOpenEdit(true);
-  // }, []);
-  // const handleChangeDelEmployee = useCallback((employee) => {
-  //   setDelEmployee(employee);
-  //   setOpenDelete(true);
-  // }, []);
+  const handleOpenEdit = useCallback(() => {
+    setOpenEdit(true);
+  }, []);
 
-  // const handleChangeActiveEmployee = useCallback((employee) => {
-  //   setActiveEmployee(employee);
-  //   setOpenActive(true);
-  // }, []);
-
-  // const handleOpenEdit = useCallback(() => {
-  //   setOpenEdit(true);
-  // }, []);
-
-  // const handleCloseEdit = useCallback(() => {
-  //   setOpenEdit(false);
-  // }, []);
+  const handleCloseEdit = useCallback(() => {
+    setOpenEdit(false);
+  }, []);
 
   const handleOpenAdd = useCallback(() => {
     setOpenAdd(true);
@@ -103,88 +74,67 @@ const RoleContextProvider = (props) => {
     setOpenAdd(false);
   }, []);
 
-  // const handleOpenDelete = useCallback(() => {
-  //   setOpenDelete(true);
-  // }, []);
+  const handleCloseDel = useCallback(() => {
+    setOpenDel(false);
+  }, []);
 
-  // const handleCloseDelete = useCallback(() => {
-  //   setOpenDelete(false);
-  // }, []);
+  const handleChangeDelRole = useCallback((role) => {
+    setDelRole(role);
+    setOpenDel(true);
+  }, []);
 
-  // const handleOpenActive = useCallback(() => {
-  //   setOpenActive(true);
-  // }, []);
-
-  // const handleCloseActive = useCallback(() => {
-  //   setOpenActive(false);
-  // }, []);
-
-  // React.useEffect(() => {
-  //   if (query === '' || !query) {
-  //     setSearchEmployees(employees);
-  //   } else {
-  //     setSearchEmployees(
-  //       employees.filter((x) =>
-  //         x.name.toUpperCase().includes(query.toUpperCase())
-  //       )
-  //     );
-  //   }
-  // }, [employees, query]);
+  React.useEffect(() => {
+    if (query === '' || !query) {
+      setSearchRoles(roles);
+    } else {
+      setSearchRoles(
+        roles.filter((x) =>
+          x.name.toUpperCase().includes(query.toUpperCase())
+        )
+      );
+    }
+  }, [roles, query]);
 
   const contextValue = useMemo(
     () => ({
-      // employees,
-      // searchEmployees,
-      // setEmployees,
-      // query,
-      // setQuery,
-      // editEmployeeObj: editEmployee,
-      // delEmployeeObj: delEmployee,
-      // activeEmployeeObj: activeEmployee,
-      // handleChangeEditEmployee,
-      // openEdit,
+      roles,
+      searchRoles,
+      setRoles,
+      query,
+      setQuery,
+      editRoleObj: editRole,
+      delRoleObj: delRole,
+      handleChangeEditRole,
+      openEdit,
       openAdd,
-      // openDelete,
-      // openActive,
+      openDel,
       handleCloseAdd,
-      // handleCloseEdit,
+      handleCloseEdit,
       handleOpenAdd,
-      // handleOpenEdit,
-      // handleOpenDelete,
-      // handleCloseDelete,
-      // handleOpenActive,
-      // handleCloseActive,
-      // handleAddEmployee,
-      // handleEditEmployee,
-      // handleChangeDelEmployee,
-      // handleChangeActiveEmployee,
-      // handleDelEmployee,
+      handleOpenEdit,
+      handleCloseDel,
+      handleChangeDelRole,
+      handleAddRole,
+      handleEditRole,
     }),
     [
-      // employees,
-      // query,
-      // searchEmployees,
-      // editEmployee,
-      // delEmployee,
-      // activeEmployee,
-      // handleAddEmployee,
-      // handleChangeEditEmployee,
-      handleCloseAdd,
-      // handleCloseDelete,
-      // handleCloseEdit,
-      // handleCloseActive,
-      // handleEditEmployee,
-      handleOpenAdd,
-      // handleOpenDelete,
-      // handleOpenEdit,
-      // handleOpenActive,
-      // handleChangeDelEmployee,
-      // handleChangeActiveEmployee,
-      // handleDelEmployee,
-      // openActive,
+      roles,
+      searchRoles,
+      query,
+      editRole,
+      delRole,
+      handleChangeEditRole,
+      openEdit,
       openAdd,
-      // openDelete,
-      // openEdit,
+      openDel,
+      handleCloseAdd,
+      handleCloseEdit,
+      handleOpenAdd,
+      handleOpenEdit,
+      handleCloseDel,
+      handleChangeDelRole,
+      handleAddRole,
+      handleEditRole,
     ]
   );
 

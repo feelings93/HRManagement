@@ -1,29 +1,28 @@
 import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
-import Switch from '@mui/material/Switch';
+
 import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
-//import { EmployeeContext } from '../../store/employee-context';
+import { RoleContext } from '../../store/role-context';
 
 function partial(fn, ...args) {
   return fn.bind(fn, ...args);
 }
 
 const RoleGrid = () => {
-  //const employeeCtx = useContext(EmployeeContext);
-  // const {
-  //   searchEmployees,
-  //   handleChangeEditEmployee,
-  //   handleChangeDelEmployee,
-  //   handleChangeActiveEmployee,
-  // } = employeeCtx;
+  const roleCtx = useContext(RoleContext);
+  const {
+    searchRoles,
+    handleChangeEditRole,
+    handleChangeDelRole,
+  } = roleCtx;
   const columns = [
     {
-      field: 'id',
-      headerName: 'Id',
+      field: 'stt',
+      headerName: 'STT',
       editable: false,
+      width: 100,
     },
     {
       field: 'name',
@@ -38,15 +37,16 @@ const RoleGrid = () => {
       editable: false,
     },
     {
-      field: 'paymentMethod',
+      field: 'paymentPeriod',
       headerName: 'Cách tính lương',
+      valueGetter: (params) => (params.row.paymentPeriod === 1 ? 'Theo tuần' : 'Theo tháng'),
       width: 200,
       editable: false,
     },
     {
-      field: 'OtMultiplier',
+      field: 'otMultiplier',
       headerName: 'Hệ số',
-      width: 100,
+      width: 130,
       editable: false,
     },
     {
@@ -60,17 +60,12 @@ const RoleGrid = () => {
       renderCell: (params) => {
         return (
           <Stack direction="row">
-            {/* <IconButton onClick={partial(handleChangeEditEmployee, params.row)}>
+            <IconButton onClick={partial(handleChangeEditRole, params.row)}>
               <Edit color="primary" />
             </IconButton>
-            <Switch
-              checked={params.row.actived}
-              onChange={handleChangeActiveEmployee.bind(null, params.row)}
-              inputProps={{ 'aria-label': 'controlled' }}
-            /> */}
-            {/* <IconButton onClick={partial(handleChangeDelEmployee, params.row)}>
+            <IconButton onClick={partial(handleChangeDelRole, params.row)}>
               <Delete />
-            </IconButton> */}
+            </IconButton>
           </Stack>
         );
       },
@@ -82,8 +77,9 @@ const RoleGrid = () => {
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           <StyleGrid
+            getRowId={(row) => row._id}
             columns={columns}
-            //rows={searchEmployees}
+            rows={searchRoles}
             disableSelectionOnClick
             disableColumnMenu
             rowsPerPageOptions={[5, 25, 50]}

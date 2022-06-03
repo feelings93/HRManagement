@@ -10,9 +10,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import useHttp from '../../hooks/use-http';
-import { createRole } from '../../lib/api/role';
 import { useForm } from 'react-hook-form';
 import { RoleContext } from '../../store/role-context';
+import { editRole } from '../../lib/api/role';
 
 const paymentPeriods = [
   {
@@ -25,15 +25,17 @@ const paymentPeriods = [
   },
 ];
 
-const AddRoleForm = () => {
+const EditRoleForm = () => {
   const { register, handleSubmit } = useForm();
   const roleCtx = useContext(RoleContext);
+  const { editRoleObj, setRoles, handleCloseEdit, openEdit } = roleCtx;
+  const { data, error, sendRequest, status } = useHttp(editRole);
+  const [paymentPeriod, setPaymentPeriod] = useState(
+    paymentPeriods.find((x) => x.id === editRoleObj.paymentPeriod)
+  );
 
-  const { setRoles, handleCloseAdd, openAdd } = roleCtx;
-  const { data, error, sendRequest, status } = useHttp(createRole);
-  const [paymentPeriod, setPaymentPeriod] = useState(paymentPeriods[0]);
   const onSubmit = (data) => {
-    sendRequest({ ...data, paymentPeriod: paymentPeriod.id });
+    sendRequest({ _id: editRoleObj._id, ...data });
   };
 
   React.useEffect(() => {
@@ -41,39 +43,42 @@ const AddRoleForm = () => {
       if (data) {
         swal(
           'Thành công',
-          'Bạn đã thêm chức vụ mới thành công',
+          'Bạn đã chỉnh sửa thông tin chức vụ thành công',
           'success'
         );
-        setRoles(data?.company?.roles);
-        handleCloseAdd();
+        setRoles(data || []);
+        handleCloseEdit();
       } else if (error) swal('Thất bại', error, 'error');
     }
-  }, [data, status, error, handleCloseAdd, setRoles]);
-
+  }, [data, status, error, setRoles, handleCloseEdit]);
   return (
-    <Dialog open={openAdd}>
+    <Dialog open={openEdit}>
       {status === 'pending' && <LinearProgress />}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Thêm chức vụ</DialogTitle>
+        <DialogTitle>Chỉnh sửa thông tin chức vụ</DialogTitle>
         <DialogContent>
           <Stack mt={1} spacing={2}>
+            <TextField id="id" label="Id" disabled value={editRoleObj._id} />
             <TextField
               {...register('name')}
               label="Tên chức vụ"
               required
               placeholder="Tên chức vụ"
+              defaultValue={editRoleObj.name}
             />
             <TextField
               {...register('idPrefix')}
               label="Prefix"
               required
               placeholder="Prefix"
+              defaultValue={editRoleObj.idPrefix}
             />
             <TextField
               {...register('idPostfix')}
               label="Postfix"
               required
               placeholder="Postfix"
+              defaultValue={editRoleObj.idPostfix}
             />
 
             <TextField
@@ -82,6 +87,7 @@ const AddRoleForm = () => {
               required
               type="number"
               placeholder="Lương cơ bản"
+              defaultValue={editRoleObj.baseSalary}
             />
             <Autocomplete
               value={paymentPeriod}
@@ -107,6 +113,7 @@ const AddRoleForm = () => {
               required
               type="number"
               placeholder="Hệ số"
+              defaultValue={editRoleObj.otMultiplier}
             />
           </Stack>
         </DialogContent>
@@ -116,9 +123,9 @@ const AddRoleForm = () => {
             variant="contained"
             type="submit"
           >
-            {status === 'pending' ? 'Đang thêm' : 'Thêm'}
+            {status === 'pending' ? 'Đang lưu' : 'Xác nhận'}
           </Button>
-          <Button variant="text" onClick={handleCloseAdd}>
+          <Button variant="text" onClick={handleCloseEdit}>
             Hủy bỏ
           </Button>
         </DialogActions>
@@ -127,4 +134,4 @@ const AddRoleForm = () => {
   );
 };
 
-export default AddRoleForm;
+export default EditRoleForm;

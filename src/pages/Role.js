@@ -6,37 +6,38 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import useHttp from '../hooks/use-http';
+
+import { getRoles } from '../lib/api/role';
 import { RoleContext } from '../store/role-context';
 import AddRoleForm from '../components/role/AddRoleForm';
-//import EditEmployeeForm from '../components/employee/EditEmployeeForm';
 import RoleGrid from '../components/role/RoleGrid';
-//import { getEmployees } from '../lib/api/employee';
+import EditRoleForm from '../components/role/EditRoleForm';
+import DelRoleForm from '../components/role/DelRoleForm';
 
 const Role = () => {
-  //const { data, error, status, sendRequest } = useHttp(getEmployees, true);
+  const { data, error, status, sendRequest } = useHttp(getRoles, true);
   const roleCtx = useContext(RoleContext);
   const {
-    //setEmployees,
+    setRoles,
     openAdd,
-    //openEdit,
-    //openDelete,
-    //openActive,
+    openEdit,
+    openDel,
     handleOpenAdd,
-    //setQuery,
-    //query,
+    setQuery,
+    query,
   } = roleCtx;
-  // React.useEffect(() => {
-  //   sendRequest();
-  // }, [sendRequest]);
+  React.useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
 
-  // React.useEffect(() => {
-  //   if (status === 'completed' && data) {
-  //     setEmployees(data);
-  //   }
-  // }, [data, status, setEmployees]);
+  React.useEffect(() => {
+    if (status === 'completed' && data) {
+      setRoles(data.map((x, index) => ({ ...x, stt: index + 1 })));
+    }
+  }, [data, status, setRoles]);
 
-  // if (status === 'pending') return <h1>Loading...</h1>;
-  // if (error) return <h1>Đã có lỗi xảy ra</h1>;
+  if (status === 'pending') return <h1>Loading...</h1>;
+  if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>
       <Stack
@@ -51,9 +52,9 @@ const Role = () => {
             size="small"
             id="search"
             label="Tìm kiếm"
-            //value={query}
+            value={query}
             onChange={(e) => {
-              //setQuery(e.target.value);
+              setQuery(e.target.value);
             }}
             InputProps={{
               startAdornment: (
@@ -73,10 +74,10 @@ const Role = () => {
           </Button>
         </Stack>
       </Stack>
-      <RoleGrid />
-      
+      <RoleGrid/>
       {openAdd && <AddRoleForm />}
-      {/* {openEdit && <EditEmployeeForm />} */}
+      {openEdit && <EditRoleForm />}
+      {openDel && <DelRoleForm />}
     </>
   );
 };
