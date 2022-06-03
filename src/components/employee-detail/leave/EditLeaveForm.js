@@ -88,7 +88,7 @@ const EditLeaveForm = () => {
 
             <TextField
               {...register('startDate')}
-              label="Thời điểm vi phạm"
+              label="Ngày bắt đầu"
               required
               defaultValue={moment(editLeaveObj.startDate).format('yyyy-MM-DD')}
               InputLabelProps={{ shrink: true }}

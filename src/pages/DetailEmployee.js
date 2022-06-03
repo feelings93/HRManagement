@@ -63,7 +63,7 @@ const DetailEmployee = () => {
         <EmployeeProfile />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <EmployeeClockIns />
+          <EmployeeClockIns />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <EmployeeSalary />

@@ -3,7 +3,8 @@ import {
   Business,
   Dashboard,
   HolidayVillage,
-  Pets,
+  LockClock,
+  Person,
 } from '@mui/icons-material';
 import React from 'react';
 import TabItem from './TabItem';
@@ -16,8 +17,13 @@ const tabList = [
   },
   {
     name: 'Nhân viên',
-    icon: <Pets />,
+    icon: <Person />,
     url: 'employee',
+  },
+  {
+    name: 'Chấm công',
+    icon: <LockClock />,
+    url: 'clock-in',
   },
   {
     name: 'Báo cáo',

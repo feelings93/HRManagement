@@ -18,6 +18,8 @@ import HolidayContextProvider from './store/holiday-context';
 import Holiday from './pages/Holiday';
 import DetailEmployee from './pages/DetailEmployee';
 import CompanyContextProvider from './store/company-context';
+import ClockInsContextProvider from './store/clock-ins-context';
+import ClockIn from './pages/ClockIn';
 
 const theme = createTheme({
   palette: {
@@ -93,6 +95,15 @@ function App() {
                 <EmployeeContextProvider>
                   <Employee />
                 </EmployeeContextProvider>
+              }
+            />
+            <Route
+              exact
+              path="clock-in"
+              element={
+                <ClockInsContextProvider>
+                  <ClockIn />
+                </ClockInsContextProvider>
               }
             />
             <Route
