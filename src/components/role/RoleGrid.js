@@ -91,7 +91,7 @@ const RoleGrid = () => {
           <StyleGrid
             getRowId={(row) => row._id}
             columns={columns}
-            rows={searchRoles}
+            rows={searchRoles.map((x, index) => ({ ...x, stt: index + 1}))}
             disableSelectionOnClick
             disableColumnMenu
             rowsPerPageOptions={[5, 25, 50]}
