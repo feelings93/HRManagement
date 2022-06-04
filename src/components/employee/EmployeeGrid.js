@@ -17,38 +17,48 @@ const EmployeeGrid = () => {
       field: 'workID',
       valueGetter: (params) =>
         (params.row.role?.idPrefix || '') +
-        ' ' +
         params.row.workID +
         (params.row.role?.idPostfix || ''),
       headerName: 'Id',
       editable: false,
-      width: 50,
+      width: 100,
     },
     {
       field: 'name',
       headerName: 'Họ tên',
       valueGetter: (params) => params.row.lastName + ' ' + params.row.firstName,
+      width: 200,
+      editable: false,
+    },
+    {
+      field: 'role',
+      headerName: 'Chức vụ',
+      valueGetter: (params) => params.row.role?.name || 'Chưa có',
       width: 150,
       editable: false,
+      sortable: false,
     },
     {
       field: 'gender',
       headerName: 'Giới tính',
       valueGetter: (params) => (params.row.gender === 1 ? 'Nam' : 'Nữ'),
-      width: 130,
+      width: 80,
       editable: false,
+      sortable: false,
     },
     {
       field: 'email',
       headerName: 'Email',
       width: 200,
       editable: false,
+      sortable: false,
     },
     {
       field: 'phone',
       headerName: 'SĐT',
       width: 130,
       editable: false,
+      sortable: false,
     },
     {
       field: 'startDate',
@@ -56,8 +66,9 @@ const EmployeeGrid = () => {
       valueGetter: (params) => {
         return moment(params.row.startDate).format('DD-MM-yyyy', true);
       },
-      width: 200,
+      width: 150,
       editable: false,
+      sortable: false,
     },
     {
       field: 'resignDate',
@@ -66,8 +77,9 @@ const EmployeeGrid = () => {
         if (!params.row.resignDate) return 'Chưa xác định';
         return moment(params.row.resignDate).format('DD-MM-yyyy', true);
       },
-      width: 200,
+      width: 150,
       editable: false,
+      sortable: false,
     },
     {
       field: 'action',
