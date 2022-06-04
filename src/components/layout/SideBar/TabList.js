@@ -5,6 +5,7 @@ import {
   HolidayVillage,
   LockClock,
   Person,
+  Category,
 } from '@mui/icons-material';
 import React from 'react';
 import TabItem from './TabItem';
@@ -22,7 +23,7 @@ const tabList = [
   },
   {
     name: 'Chức vụ',
-    icon: <Person />,
+    icon: <Category />,
     url: 'role',
   },
   {
