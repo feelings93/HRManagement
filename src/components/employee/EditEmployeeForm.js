@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,11 +14,7 @@ import { editEmployee } from '../../lib/api/employee';
 import { EmployeeContext } from '../../store/employee-context';
 import { useForm } from 'react-hook-form';
 import moment from 'moment';
-
-const options = [
-  { label: 'admin', id: 1 },
-  { label: 'user', id: 2 },
-];
+import { getRoles } from '../../lib/api/role';
 
 const genders = [
   {
@@ -37,17 +33,51 @@ const EditEmployeeForm = () => {
   const { editEmployeeObj, handleEditEmployee, handleCloseEdit, openEdit } =
     employeeCtx;
   const { data, error, sendRequest, status } = useHttp(editEmployee);
+  const {
+    data: dataRole,
+    error: errorRole,
+    sendRequest: sendRequestRole,
+    status: statusRole,
+  } = useHttp(getRoles, true);
   const [role, setRole] = useState(null);
+  const [roles, setRoles] = useState([]);
+
   const [gender, setGender] = useState(
     genders.find((x) => x.id === editEmployeeObj.gender)
   );
 
   const onSubmit = (data) => {
-    console.log({ _id: editEmployeeObj._id, ...data });
-    sendRequest({ _id: editEmployeeObj._id, ...data });
+    sendRequest({
+      _id: editEmployeeObj._id,
+      ...data,
+      gender: gender.id,
+      roleID: role._id,
+    });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    sendRequestRole();
+  }, [sendRequestRole]);
+
+  useEffect(() => {
+    if (statusRole === 'completed') {
+      if (dataRole) {
+        setRoles(dataRole);
+        setRole(dataRole.find((x) => x._id === editEmployeeObj.role?._id));
+      } else if (errorRole) {
+        swal('Thất bại', errorRole, 'error');
+        handleCloseEdit();
+      }
+    }
+  }, [
+    dataRole,
+    editEmployeeObj.role?._id,
+    errorRole,
+    handleCloseEdit,
+    statusRole,
+  ]);
+
+  useEffect(() => {
     if (status === 'completed') {
       if (data) {
         swal(
@@ -109,7 +139,7 @@ const EditEmployeeForm = () => {
               }}
               id="controllable-states-demo"
               getOptionLabel={(option) => option.label}
-              options={options}
+              options={genders}
               sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField
@@ -126,15 +156,16 @@ const EditEmployeeForm = () => {
                 setRole(newValue);
               }}
               id="controllable-states-demo"
-              getOptionLabel={(option) => option.label}
-              options={options}
+              loading={statusRole === 'pending'}
+              getOptionLabel={(option) => option.name}
+              options={roles}
               sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField
                   required
                   {...params}
-                  label="Vai trò"
-                  placeholder="Vai trò"
+                  label="Chức vụ"
+                  placeholder="Chức vụ"
                 />
               )}
             />
@@ -151,16 +182,19 @@ const EditEmployeeForm = () => {
               )}
             />
             <TextField
-              required
               {...register('resignDate')}
               type="date"
               InputLabelProps={{ shrink: true }}
               label="Ngày nghỉ việc"
               placeholder="Ngày nghỉ việc"
-              defaultValue={moment(editEmployeeObj.resignDate).format(
-                'yyyy-MM-DD',
-                true
-              )}
+              defaultValue={
+                editEmployeeObj.resignDate
+                  ? moment(editEmployeeObj.resignDate).format(
+                      'yyyy-MM-DD',
+                      true
+                    )
+                  : ''
+              }
             />
           </Stack>
         </DialogContent>

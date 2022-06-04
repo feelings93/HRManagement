@@ -12,7 +12,7 @@ export const getClockInsByEmployeeID = async (id) => {
 
 export const getClockIns = async (id) => {
     try {
-      const response = await axios.get(`/api/v1/clock-ins`);
+      const response = await axios.get(`/api/v1/clock-ins/with-emp`);
       return response.data;
     } catch (err) {
       throw new Error(err.response.data?.message);

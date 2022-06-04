@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import swal from 'sweetalert';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,17 +13,7 @@ import useHttp from '../../hooks/use-http';
 import { createEmployee } from '../../lib/api/employee';
 import { EmployeeContext } from '../../store/employee-context';
 import { useForm } from 'react-hook-form';
-
-const options = [
-  {
-    id: 1,
-    label: 'Admin',
-  },
-  {
-    id: 2,
-    label: 'Employee',
-  },
-];
+import { getRoles } from '../../lib/api/role';
 
 const genders = [
   {
@@ -42,13 +32,37 @@ const AddEmployeeForm = () => {
 
   const { handleAddEmployee, handleCloseAdd, openAdd } = employeeCtx;
   const { data, error, sendRequest, status } = useHttp(createEmployee);
+  const {
+    data: dataRole,
+    error: errorRole,
+    sendRequest: sendRequestRole,
+    status: statusRole,
+  } = useHttp(getRoles, true);
+
   const [role, setRole] = useState(null);
+  const [roles, setRoles] = useState([]);
+
   const [gender, setGender] = useState(genders[0]);
   const onSubmit = (data) => {
-    sendRequest({ ...data, gender: gender.id });
+    sendRequest({ ...data, gender: gender.id, roleID: role._id  });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    sendRequestRole();
+  }, [sendRequestRole]);
+
+  useEffect(() => {
+    if (statusRole === 'completed') {
+      if (dataRole) {
+        setRoles(dataRole);
+      } else if (errorRole) {
+        swal('Thất bại', errorRole, 'error');
+        handleCloseAdd();
+      }
+    }
+  }, [dataRole, errorRole, handleCloseAdd, statusRole]);
+
+  useEffect(() => {
     if (status === 'completed') {
       if (data) {
         swal('Thành công', 'Bạn đã thêm nhân viên mới thành công', 'success');
@@ -108,16 +122,17 @@ const AddEmployeeForm = () => {
               onChange={(event, newValue) => {
                 setRole(newValue);
               }}
+              loading={statusRole === 'pending'}
               id="controllable-states-demo"
-              getOptionLabel={(option) => option.label}
-              options={options}
+              getOptionLabel={(option) => option.name}
+              options={roles}
               sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField
                   required
                   {...params}
-                  label="Vai trò"
-                  placeholder="Vai trò"
+                  label="Chức vụ"
+                  placeholder="Chức vụ"
                 />
               )}
             />
@@ -129,14 +144,7 @@ const AddEmployeeForm = () => {
               label="Ngày bắt đầu"
               placeholder="Ngày bắt đầu"
             />
-            <TextField
-              required
-              {...register('resignDate')}
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              label="Ngày nghỉ việc"
-              placeholder="Ngày nghỉ việc"
-            />
+            
           </Stack>
         </DialogContent>
         <DialogActions>

@@ -7,18 +7,19 @@ import { EmployeeContext } from '../../store/employee-context';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-
 const EmployeeGrid = () => {
   const navigate = useNavigate();
   const employeeCtx = useContext(EmployeeContext);
-  const {
-    searchEmployees,
-    handleChangeEditEmployee,
-    handleChangeDelEmployee,
-  } = employeeCtx;
+  const { searchEmployees, handleChangeEditEmployee, handleChangeDelEmployee } =
+    employeeCtx;
   const columns = [
     {
       field: 'workID',
+      valueGetter: (params) =>
+        (params.row.role?.idPrefix || '') +
+        ' ' +
+        params.row.workID +
+        (params.row.role?.idPostfix || ''),
       headerName: 'Id',
       editable: false,
       width: 50,
@@ -62,6 +63,7 @@ const EmployeeGrid = () => {
       field: 'resignDate',
       headerName: 'Ngày thôi việc',
       valueGetter: (params) => {
+        if (!params.row.resignDate) return 'Chưa xác định';
         return moment(params.row.resignDate).format('DD-MM-yyyy', true);
       },
       width: 200,

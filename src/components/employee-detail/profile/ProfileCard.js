@@ -90,7 +90,9 @@ const ProfileCard = () => {
             </Grid>
             <Grid xs={8} item>
               <Typography variant="subtitle1" fontWeight={600}>
-                {moment(data?.resignDate).format('DD-MM-yyyy')}
+                {data?.resignDate
+                  ? moment(data?.resignDate).format('DD-MM-yyyy')
+                  : 'Chưa xác định'}
               </Typography>
             </Grid>
             <Grid xs={4} item>
