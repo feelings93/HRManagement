@@ -67,7 +67,7 @@ function RedirectWhenSignedInRoute() {
 
 function App() {
   const authCtx = useContext(AuthContext);
-  const { setUser } = authCtx;
+  const { setUser, user } = authCtx;
   const { data, status, sendRequest } = useHttp(getProfile);
   React.useEffect(() => {
     sendRequest();
@@ -79,7 +79,7 @@ function App() {
       } else setUser(null);
     }
   }, [data, setUser, status]);
-  if (status === 'pending') return <LoadingBox/>;
+  if (status === 'pending' || user === undefined) return <LoadingBox />;
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -101,12 +101,14 @@ function App() {
                 </EmployeeContextProvider>
               }
             />
-            <Route exact path="role" 
+            <Route
+              exact
+              path="role"
               element={
                 <RoleContextProvider>
                   <Role />
                 </RoleContextProvider>
-              } 
+              }
             />
             <Route
               exact
