@@ -7,6 +7,7 @@ import { getClockInsByEmployeeID } from '../lib/api/clockIn';
 import { useParams } from 'react-router-dom';
 import useHttp from '../hooks/use-http';
 import 'moment/locale/vi.js';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const localizer = momentLocalizer(moment);
 
@@ -24,7 +25,7 @@ const EmployeeClockIns = () => {
 
 
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox/>;
   if (error) return <h1>{error}</h1>;
 
   const getBg = (value, clockIns = []) => {

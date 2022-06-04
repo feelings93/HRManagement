@@ -13,6 +13,7 @@ import AddRoleForm from '../components/role/AddRoleForm';
 import RoleGrid from '../components/role/RoleGrid';
 import EditRoleForm from '../components/role/EditRoleForm';
 import DelRoleForm from '../components/role/DelRoleForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const Role = () => {
   const { data, error, status, sendRequest } = useHttp(getRoles, true);
@@ -36,7 +37,7 @@ const Role = () => {
     }
   }, [data, status, setRoles]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') <LoadingBox />;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>
@@ -74,7 +75,7 @@ const Role = () => {
           </Button>
         </Stack>
       </Stack>
-      <RoleGrid/>
+      <RoleGrid />
       {openAdd && <AddRoleForm />}
       {openEdit && <EditRoleForm />}
       {openDel && <DelRoleForm />}

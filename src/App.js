@@ -23,6 +23,7 @@ import CompanyContextProvider from './store/company-context';
 import ClockInsContextProvider from './store/clock-ins-context';
 import ClockIn from './pages/ClockIn';
 import ReportContextProvider from './store/report-context';
+import LoadingBox from './components/UI/LoadingBox';
 
 const theme = createTheme({
   palette: {
@@ -78,7 +79,7 @@ function App() {
       } else setUser(null);
     }
   }, [data, setUser, status]);
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox/>;
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

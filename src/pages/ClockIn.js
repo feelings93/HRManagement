@@ -11,6 +11,7 @@ import AddClockInForm from '../components/clock-in/AddClockInForm';
 import EditClockInForm from '../components/clock-in/EditClockInForm';
 import DelClockInForm from '../components/clock-in/DelClockInForm';
 import ClockInGrid from '../components/clock-in/ClockInGrid';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const ClockIn = () => {
   const { data, error, status, sendRequest } = useHttp(getClockIns, true);
@@ -27,7 +28,7 @@ const ClockIn = () => {
     }
   }, [data, status, setClockIns]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox />;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>

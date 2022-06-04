@@ -10,6 +10,7 @@ import LeaveGrid from '../components/employee-detail/leave/LeaveGrid';
 import AddLeaveForm from '../components/employee-detail/leave/AddLeaveForm';
 import DelLeaveForm from '../components/employee-detail/leave/DelLeaveForm';
 import EditLeaveForm from '../components/employee-detail/leave/EditLeaveForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const EmployeePenalties = () => {
   const params = useParams();
@@ -29,7 +30,7 @@ const EmployeePenalties = () => {
     }
   }, [data, setLeaves, status]);
 
-  if (status === 'pending') return <h1>Loading....</h1>;
+  if (status === 'pending') return <LoadingBox/>;
   if (error) return <h1>{error}</h1>;
   return (
     <>

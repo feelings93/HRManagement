@@ -15,6 +15,7 @@ import EditReportForm from '../components/report/EditReportForm';
 import DelReportForm from '../components/report/DelReportForm';
 import moment from 'moment';
 import swal from 'sweetalert';
+import LoadingBox from '../components/UI/LoadingBox';
 const types = [
   { id: 1, label: 'Theo khoảng thời gian' },
   { id: 2, label: 'Theo tháng' },
@@ -70,7 +71,7 @@ const Holiday = () => {
     }
   }, [data, status, setReports]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox />;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>

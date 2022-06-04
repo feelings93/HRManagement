@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import useHttp from '../../../hooks/use-http';
 import { getEmployee } from '../../../lib/api/employee';
 import moment from 'moment';
+import LoadingBox from '../../UI/LoadingBox';
 
 const ProfileCard = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const ProfileCard = () => {
   useEffect(() => {
     sendRequest(params.id);
   }, [params.id, sendRequest]);
-  if (status === 'pending') return <h1>Loading....</h1>;
+  if (status === 'pending') return <LoadingBox />;
   if (error) return <h1>{error}</h1>;
   return (
     <Card variant="outlined">

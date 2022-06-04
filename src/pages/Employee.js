@@ -12,6 +12,7 @@ import EditEmployeeForm from '../components/employee/EditEmployeeForm';
 import EmployeeGrid from '../components/employee/EmployeeGrid';
 import { getEmployees } from '../lib/api/employee';
 import DelEmployeeForm from '../components/employee/DelEmployeeForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const Employee = () => {
   const { data, error, status, sendRequest } = useHttp(getEmployees, true);
@@ -35,7 +36,8 @@ const Employee = () => {
     }
   }, [data, status, setEmployees]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox />;
+
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>

@@ -13,6 +13,7 @@ import AddHolidayForm from '../components/holiday/AddHolidayForm';
 import HolidayGrid from '../components/holiday/HolidayGrid';
 import EditHolidayForm from '../components/holiday/EditHolidayForm';
 import DelHolidayForm from '../components/holiday/DelHolidayForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const Holiday = () => {
   const { data, error, status, sendRequest } = useHttp(getHolidays, true);
@@ -36,7 +37,7 @@ const Holiday = () => {
     }
   }, [data, status, setHolidays]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox />;
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>

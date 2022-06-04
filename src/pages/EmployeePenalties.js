@@ -10,6 +10,7 @@ import PenaltyGrid from '../components/employee-detail/penalty/PenaltyGrid';
 import AddPenaltyForm from '../components/employee-detail/penalty/AddPenaltyForm';
 import EditPenaltyForm from '../components/employee-detail/penalty/EditPenaltyForm';
 import DelPenaltyForm from '../components/employee-detail/penalty/DelPenaltyForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const EmployeePenalties = () => {
   const params = useParams();
@@ -30,7 +31,7 @@ const EmployeePenalties = () => {
     }
   }, [data, setPenalties, status]);
 
-  if (status === 'pending') return <h1>Loading....</h1>;
+  if (status === 'pending') return <LoadingBox />;
   if (error) return <h1>{error}</h1>;
   return (
     <>
