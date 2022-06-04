@@ -42,6 +42,7 @@ export const editClockIn = async (clockIn) => {
 
 export const delClockIn = async (clockIn) => {
   try {
+    console.log(clockIn);
     const response = await axios.delete(`/api/v1/clock-ins/${clockIn._id}`);
     return response.data;
   } catch (err) {

@@ -19,7 +19,7 @@ const DelClockInForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     sendRequest({
-      _id: delClockInObj._id,
+      _id: delClockInObj.clockIn?._id,
     });
   };
 
@@ -27,11 +27,11 @@ const DelClockInForm = () => {
     if (status === 'completed') {
       if (data) {
         swal('Thành công', 'Bạn đã xóa chấm công thành công', 'success');
-        handleDelClockIn(data);
+        handleDelClockIn(delClockInObj._id, data);
         handleCloseDel();
       } else if (error) swal('Thất bại', error, 'error');
     }
-  }, [data, status, error, handleDelClockIn, handleCloseDel]);
+  }, [data, status, error, handleDelClockIn, handleCloseDel, delClockInObj._id]);
   return (
     <Dialog open={openDel}>
       {status === 'pending' && <LinearProgress />}

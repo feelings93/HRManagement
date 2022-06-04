@@ -19,7 +19,7 @@ const AddClockInForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     sendRequest({
-      employeeID: addClockInObj.employeeID,
+      employeeID: addClockInObj._id,
     });
   };
 
@@ -27,11 +27,11 @@ const AddClockInForm = () => {
     if (status === 'completed') {
       if (data) {
         swal('Thành công', 'Bạn đã check in thành công', 'success');
-        handleAddClockIn(data);
+        handleAddClockIn(addClockInObj._id, data);
         handleCloseAdd();
       } else if (error) swal('Thất bại', error, 'error');
     }
-  }, [data, status, error, handleCloseAdd, handleAddClockIn]);
+  }, [data, status, error, handleCloseAdd, handleAddClockIn, addClockInObj._id]);
   return (
     <Dialog open={openAdd}>
       {status === 'pending' && <LinearProgress />}

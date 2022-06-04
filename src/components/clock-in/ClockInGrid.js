@@ -14,20 +14,26 @@ function partial(fn, ...args) {
 
 const ClockInGrid = () => {
   const {
-    clockIns,
+    searchClockIns,
     handleChangeDelClockIn,
     handleChangeEditClockIn,
     handleChangeAddClockIn,
   } = useContext(ClockInsContext);
   const columns = [
     {
-      field: '_id',
+      field: 'workID',
+      valueGetter: (params) =>
+        (params.row.role?.idPrefix || '') +
+        ' ' +
+        params.row.workID +
+        (params.row.role?.idPostfix || ''),
       headerName: 'Id',
       editable: false,
       width: 70,
     },
     {
       field: 'name',
+      valueGetter: (params) => params.row.lastName + ' ' + params.row.firstName,
       headerName: 'Tên nhân viên',
       editable: false,
       width: 200,
@@ -39,9 +45,9 @@ const ClockInGrid = () => {
       renderCell: (params) => {
         return (
           <Chip
-            color={params.row.late ? 'error' : 'info'}
+            color={params.row.clockIn?.late ? 'error' : 'info'}
             variant="outlined"
-            label={params.row.late ? 'Có' : 'Không'}
+            label={params.row.clockIn?.late ? 'Có' : 'Không'}
           />
         );
       },
@@ -52,8 +58,8 @@ const ClockInGrid = () => {
       field: 'clockedIn',
       headerName: 'Giờ checkin',
       valueGetter: (params) => {
-        if (!params.row.clockedIn) return 'Chưa checkin';
-        return moment(params.row.clockedIn).format('HH:mm');
+        if (!params.row.clockIn?.clockedIn) return 'Chưa checkin';
+        return moment(params.row.clockIn?.clockedIn).format('HH:mm');
       },
       width: 150,
       editable: false,
@@ -62,8 +68,8 @@ const ClockInGrid = () => {
       field: 'clockedOut',
       headerName: 'Giờ checkout',
       valueGetter: (params) => {
-        if (!params.row.clockedOut) return 'Chưa checkout';
-        return moment(params.row.clockedOut).format('HH:mm');
+        if (!params.row.clockIn?.clockedOut) return 'Chưa checkout';
+        return moment(params.row.clockIn?.clockedOut).format('HH:mm');
       },
       width: 150,
       editable: false,
@@ -79,14 +85,32 @@ const ClockInGrid = () => {
       renderCell: (params) => {
         return (
           <Stack direction="row">
-            <IconButton onClick={partial(handleChangeAddClockIn, params.row)}>
-              <Login color="primary" />
+            <IconButton
+              disabled={params.row.clockIn?.clockedIn}
+              onClick={partial(handleChangeAddClockIn, params.row)}
+            >
+              <Login color={params.row.clockIn?.clockedIn ? '' : 'primary'} />
             </IconButton>
-            <IconButton onClick={partial(handleChangeEditClockIn, params.row)}>
-              <Logout color="primary" />
+            <IconButton
+              disabled={
+                params.row.clockIn?.clockedOut || !params.row.clockIn?.clockedIn
+              }
+              onClick={partial(handleChangeEditClockIn, params.row)}
+            >
+              <Logout
+                color={
+                  params.row.clockIn?.clockedOut ||
+                  !params.row.clockIn?.clockedIn
+                    ? ''
+                    : 'primary'
+                }
+              />
             </IconButton>
-            <IconButton onClick={partial(handleChangeDelClockIn, params.row)}>
-              <Delete color="primary" />
+            <IconButton
+              disabled={!params.row.clockIn?.clockedIn}
+              onClick={partial(handleChangeDelClockIn, params.row)}
+            >
+              <Delete color={!params.row.clockIn?.clockedIn ? '' : 'primary'} />
             </IconButton>
           </Stack>
         );
@@ -101,7 +125,7 @@ const ClockInGrid = () => {
           <StyleGrid
             getRowId={(row) => row._id}
             columns={columns}
-            rows={clockIns}
+            rows={searchClockIns}
             disableSelectionOnClick
             disableColumnMenu
             rowsPerPageOptions={[5, 25, 50]}

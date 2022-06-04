@@ -26,7 +26,7 @@ const EditClockInForm = () => {
 
   const onSubmit = (data) => {
     sendRequest({
-      employeeID: editClockInObj.employeeID,
+      employeeID: editClockInObj._id,
       userID: user._id,
       clockIn: {
         clockedOut: moment(
@@ -45,11 +45,18 @@ const EditClockInForm = () => {
           'Bạn đã check out cho nhân viên thành công',
           'success'
         );
-        handleEditClockIn(data);
+        handleEditClockIn(editClockInObj._id, data);
         handleCloseEdit();
       } else if (error) swal('Thất bại', error, 'error');
     }
-  }, [data, status, error, handleCloseEdit, handleEditClockIn]);
+  }, [
+    data,
+    status,
+    error,
+    handleCloseEdit,
+    handleEditClockIn,
+    editClockInObj._id,
+  ]);
   return (
     <Dialog open={openEdit}>
       {status === 'pending' && <LinearProgress />}

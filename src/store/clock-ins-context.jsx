@@ -37,27 +37,40 @@ const ClockInsContextProvider = (props) => {
   const [searchClockIns, setSearchClockIns] = useState([]);
   const [query, setQuery] = React.useState('');
 
-  const handleAddClockIn = useCallback((clockIn) => {
-    setClockIns((prev) => [...prev, clockIn]);
-  }, []);
-
-  const handleEditClockIn = useCallback(
-    (clockIn) => {
+  const handleAddClockIn = useCallback(
+    (employeeID, clockIn) => {
       const newClockIns = clockIns.map((item) => {
-        if (item._id === clockIn._id) {
-          return clockIn;
+        if (item._id === employeeID) {
+          item.clockIn = clockIn;
         }
         return item;
       });
-      console.log(newClockIns);
+      setClockIns(newClockIns);
+    },
+    [clockIns]
+  );
+
+  const handleEditClockIn = useCallback(
+    (employeeID, clockIn) => {
+      const newClockIns = clockIns.map((item) => {
+        if (item._id === employeeID) {
+          item.clockIn = clockIn;
+        }
+        return item;
+      });
       setClockIns(newClockIns);
     },
     [clockIns]
   );
 
   const handleDelClockIn = useCallback(
-    (clockIn) => {
-      const newClockIns = clockIns.filter((item) => item._id !== clockIn._id);
+    (employeeID) => {
+      const newClockIns = clockIns.map((item) => {
+        if (item._id === employeeID) {
+          item.clockIn = null;
+        }
+        return item;
+      });
       setClockIns(newClockIns);
     },
     [clockIns]
@@ -104,7 +117,9 @@ const ClockInsContextProvider = (props) => {
     } else {
       setSearchClockIns(
         clockIns.filter((x) =>
-          x.employeeName.toUpperCase().includes(query.toUpperCase())
+          (x.lastName + ' ' + x.firstName)
+            .toUpperCase()
+            .includes(query.toUpperCase())
         )
       );
     }
