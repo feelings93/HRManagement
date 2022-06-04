@@ -71,14 +71,12 @@ const EditRoleForm = () => {
             <TextField
               {...register('idPrefix')}
               label="Prefix"
-              required
               placeholder="Prefix"
               defaultValue={editRoleObj.idPrefix}
             />
             <TextField
               {...register('idPostfix')}
               label="Postfix"
-              required
               placeholder="Postfix"
               defaultValue={editRoleObj.idPostfix}
             />

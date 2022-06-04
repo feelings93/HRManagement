@@ -66,13 +66,11 @@ const AddRoleForm = () => {
             <TextField
               {...register('idPrefix')}
               label="Prefix"
-              required
               placeholder="Prefix"
             />
             <TextField
               {...register('idPostfix')}
               label="Postfix"
-              required
               placeholder="Postfix"
             />
 
