@@ -13,7 +13,8 @@ function partial(fn, ...args) {
 
 const HolidayGrid = () => {
   const holidayCtx = useContext(HolidayContext);
-  const { searchHolidays, handleChangeEditHoliday, handleChangeDelHoliday } = holidayCtx;
+  const { searchHolidays, handleChangeEditHoliday, handleChangeDelHoliday } =
+    holidayCtx;
   const columns = [
     {
       field: 'stt',
@@ -79,7 +80,7 @@ const HolidayGrid = () => {
           <StyleGrid
             getRowId={(row) => row._id}
             columns={columns}
-            rows={searchHolidays}
+            rows={searchHolidays.map((x, index) => ({ ...x, stt: index + 1 }))}
             disableSelectionOnClick
             disableColumnMenu
             rowsPerPageOptions={[5, 25, 50]}

@@ -36,7 +36,9 @@ const EmployeeSalariesContextProvider = (props) => {
   const [delSalary, setDelSalary] = useState(null);
 
   const handleAddSalary = useCallback((salary) => {
-    setSalaries((prev) => [...prev, salary]);
+    if (salary.createdSalary)
+      setSalaries((prev) => [...prev, salary.createdSalary]);
+    else setSalaries((prev) => [...prev, salary]);
   }, []);
 
   const handleEditSalary = useCallback(
@@ -55,9 +57,7 @@ const EmployeeSalariesContextProvider = (props) => {
 
   const handleDelSalary = useCallback(
     (salary) => {
-      const newSalaries = salaries.filter(
-        (item) => item._id !== salary._id
-      );
+      const newSalaries = salaries.filter((item) => item._id !== salary._id);
       setSalaries(newSalaries);
     },
     [salaries]
@@ -126,9 +126,28 @@ const EmployeeSalariesContextProvider = (props) => {
       handleChangeDelSalary,
       handleAddSalary,
       handleEditSalary,
-      handleDelSalary
+      handleDelSalary,
     }),
-    [salaries, searchSalaries, query, editSalary, delSalary, handleChangeEditSalary, openEdit, openAdd, openDel, handleCloseAdd, handleCloseEdit, handleOpenAdd, handleOpenEdit, handleCloseDel, handleChangeDelSalary, handleAddSalary, handleEditSalary, handleDelSalary]
+    [
+      salaries,
+      searchSalaries,
+      query,
+      editSalary,
+      delSalary,
+      handleChangeEditSalary,
+      openEdit,
+      openAdd,
+      openDel,
+      handleCloseAdd,
+      handleCloseEdit,
+      handleOpenAdd,
+      handleOpenEdit,
+      handleCloseDel,
+      handleChangeDelSalary,
+      handleAddSalary,
+      handleEditSalary,
+      handleDelSalary,
+    ]
   );
 
   return (

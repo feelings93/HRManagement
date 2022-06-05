@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
+import Chip from '@mui/material/Chip';
 import { Delete, Edit } from '@mui/icons-material';
 import StyleGrid from '../UI/StyleGrid/StyleGrid';
 import { EmployeeContext } from '../../store/employee-context';
@@ -67,6 +68,22 @@ const EmployeeGrid = () => {
         return moment(params.row.startDate).format('DD-MM-yyyy', true);
       },
       width: 150,
+      editable: false,
+      sortable: false,
+    },
+    {
+      field: 'paymentDue',
+      headerName: 'Đến hạn trả lương',
+      renderCell: (params) => {
+        return (
+          <Chip
+            color={params.row.paymentDue === false ? 'error' : 'info'}
+            variant="outlined"
+            label={params.row.paymentDue === false ? 'Chưa' : 'Đã đến'}
+          />
+        );
+      },
+      width: 170,
       editable: false,
       sortable: false,
     },
