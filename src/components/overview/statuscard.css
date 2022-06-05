@@ -1,0 +1,101 @@
+:root {
+    --main-bg: #ffffff;
+    --second-bg: #fafafb;
+    --txt-color: #455560;
+    --txt-white: #fff;
+    --main-color: #3aa3cc;
+    --second-color: #3aa3cc;
+    --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  
+    --main-bg-light: #ffffff;
+    --second-bg-light: #fafafb;
+    --txt-color-light: #455560;
+    --box-shadow-light: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  
+    --main-bg-dark: #2d2d2d;
+    --second-bg-dark: #202020;
+    --txt-color-dark: #bbbbbb;
+    --box-shadow-dark: rgba(0, 0, 0, 0.2) 0px 5px 10px;
+  
+    --main-color-blue: #349eff;
+    --second-color-blue: #62b4ff;
+  
+    --main-color-red: #fb0b12;
+    --second-color-red: #ff4a6b;
+  
+    --main-color-cyan: #10d4d2;
+    --second-color-cyan: #2ae9e6;
+  
+    --main-color-green: #019707;
+    --second-color-green: #4caf50;
+  
+    --main-color-orange: #d68102;
+    --second-color-orange: #fca11a;
+  
+    --sidebar-width: 300px;
+    --border-radius: 15px;
+    --topnav-height: 110px;
+    --transition-cubic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+.status-card {
+    color:#625454;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    background-color: var(--main-bg);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.5s ease 0s;
+}
+
+.status-card__icon {
+    width: 30%;
+    height: 100%;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.status-card__info {
+    flex-grow: 1;
+    text-align: center;
+    z-index: 1;
+    text-transform: capitalize;
+    margin-top: -25px;
+}
+
+.status-card__info > h4 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.status-card::before {
+    content: "";
+    width: 100%;
+    padding-top: 100%;
+    border-radius: 50%;
+    background-image: linear-gradient(
+        to top right,
+        var(--main-color),
+        var(--second-color)
+    );
+    position: absolute;
+    left: -50%;
+    top: 0;
+    transform: scale(0);
+    transition: transform 0.8s ease 0s;
+}
+
+.status-card:hover::before {    
+    transform: scale(3);
+}
+
+.status-card:hover {
+    color: var(--txt-white);
+}
