@@ -16,16 +16,16 @@ import { EmployeeLeavesContext } from '../../../store/employee-leaves-context';
 import { createLeave } from '../../../lib/api/leave';
 
 const leaveTypes = [
-  'Unpaid',
-  'Sabbatical',
-  'Compensatory',
-  'Bereavement',
-  'Paternity',
-  'Maternity',
-  'ReligiousHolidays',
-  'PublicHolidays',
-  'Casual',
-  'Sick',
+  { name: 'Unpaid', label: 'Nghỉ không lương' },
+  { name: 'Sabbatical', label: 'Nghỉ phép' },
+  { name: 'Compensatory', label: 'Nghỉ bù' },
+  { name: 'Bereavement', label: 'Nghỉ tang' },
+  { name: 'Paternity', label: 'Nghỉ thai sản (cha)' },
+  { name: 'Maternity', label: 'Nghỉ thai sản (mẹ)' },
+  { name: 'ReligiousHolidays', label: 'Ngày lễ tôn giáo' },
+  { name: 'PublicHolidays', label: 'Ngày lễ' },
+  { name: 'Casual', label: 'Nghỉ bình thường' },
+  { name: 'Sick', label: 'Nghỉ ốm' },
 ];
 
 const AddLeaveForm = () => {
@@ -36,7 +36,7 @@ const AddLeaveForm = () => {
   const { data, error, sendRequest, status } = useHttp(createLeave);
   const [leaveType, setLeaveType] = useState(null);
   const onSubmit = (data) => {
-    sendRequest({ ...data, leaveType, employeeID: params.id });
+    sendRequest({ ...data, leaveType: leaveType.name, employeeID: params.id });
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const AddLeaveForm = () => {
                 setLeaveType(newValue);
               }}
               id="controllable-states-demo"
-              getOptionLabel={(option) => option}
+              getOptionLabel={(option) => option.label}
               options={leaveTypes}
               sx={{ width: 300 }}
               renderInput={(params) => (

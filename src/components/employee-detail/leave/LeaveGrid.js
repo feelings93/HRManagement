@@ -25,6 +25,32 @@ const LeaveGrid = () => {
     {
       field: 'leaveType',
       headerName: 'Loại ngày nghỉ',
+      valueGetter: (params) => {
+        switch (params.row.leaveType) {
+          case 'Unpaid':
+            return 'Nghỉ không lương';
+          case 'Sabbatical':
+            return 'Nghỉ phép';
+          case 'Compensatory':
+            return 'Nghỉ bù';
+          case 'Bereavement':
+            return 'Nghỉ tang';
+          case 'Paternity':
+            return 'Nghỉ thai sản (cha)';
+          case 'Maternity':
+            return 'Nghỉ thai sản (mẹ)';
+          case 'ReligiousHolidays':
+            return 'Ngày lễ tôn giáo';
+          case 'PublicHolidays':
+            return 'Ngày lễ';
+          case 'Casual':
+            return 'Nghỉ bình thường';
+          case 'Sick':
+            return 'Nghỉ ốm';
+          default:
+            return '';
+        }
+      },
       width: 200,
       editable: false,
     },

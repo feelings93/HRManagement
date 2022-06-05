@@ -16,16 +16,16 @@ import { EmployeeLeavesContext } from '../../../store/employee-leaves-context';
 import { editLeave } from '../../../lib/api/leave';
 
 const leaveTypes = [
-  'Unpaid',
-  'Sabbatical',
-  'Compensatory',
-  'Bereavement',
-  'Paternity',
-  'Maternity',
-  'ReligiousHolidays',
-  'PublicHolidays',
-  'Casual',
-  'Sick',
+  { name: 'Unpaid', label: 'Nghỉ không lương' },
+  { name: 'Sabbatical', label: 'Nghỉ phép' },
+  { name: 'Compensatory', label: 'Nghỉ bù' },
+  { name: 'Bereavement', label: 'Nghỉ tang' },
+  { name: 'Paternity', label: 'Nghỉ thai sản (cha)' },
+  { name: 'Maternity', label: 'Nghỉ thai sản (mẹ)' },
+  { name: 'ReligiousHolidays', label: 'Ngày lễ tôn giáo' },
+  { name: 'PublicHolidays', label: 'Ngày lễ' },
+  { name: 'Casual', label: 'Nghỉ bình thường' },
+  { name: 'Sick', label: 'Nghỉ ốm' },
 ];
 
 const EditLeaveForm = () => {
@@ -33,7 +33,7 @@ const EditLeaveForm = () => {
   const leaveCtx = useContext(EmployeeLeavesContext);
   const { handleEditLeave, handleCloseEdit, openEdit, editLeaveObj } = leaveCtx;
   const [leaveType, setLeaveType] = useState(
-    leaveTypes.find((x) => x === editLeaveObj.leaveType)
+    leaveTypes.find((x) => x.name === editLeaveObj.leaveType)
   );
 
   const { data, error, sendRequest, status } = useHttp(editLeave);
@@ -42,7 +42,7 @@ const EditLeaveForm = () => {
     sendRequest({
       _id: editLeaveObj._id,
       employeeID: editLeaveObj.employeeID,
-      leaveType,
+      leaveType: leaveType.name,
       ...data,
     });
   };
@@ -73,7 +73,7 @@ const EditLeaveForm = () => {
                 setLeaveType(newValue);
               }}
               id="controllable-states-demo"
-              getOptionLabel={(option) => option}
+              getOptionLabel={(option) => option.label}
               options={leaveTypes}
               sx={{ width: 300 }}
               renderInput={(params) => (
