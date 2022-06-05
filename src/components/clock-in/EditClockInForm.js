@@ -25,6 +25,14 @@ const EditClockInForm = () => {
   const { data, error, sendRequest, status } = useHttp(editClockIn);
 
   const onSubmit = (data) => {
+    if (
+      !moment(editClockInObj.clockIn?.clockedIn).isBefore(
+        moment(data.clockedOut, 'HH:mm')
+      )
+    ) {
+      swal('Thất bại', 'Giờ checkout phải sau giờ checkin', 'error');
+      return;
+    }
     sendRequest({
       employeeID: editClockInObj._id,
       userID: user._id,
