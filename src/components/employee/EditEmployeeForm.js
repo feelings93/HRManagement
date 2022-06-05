@@ -47,6 +47,13 @@ const EditEmployeeForm = () => {
   );
 
   const onSubmit = (data) => {
+    if (
+      data.resignDate &&
+      !moment(data.startDate).isBefore(moment(data.resignDate))
+    ) {
+      swal('Thất bại', 'Ngày nghỉ việc phải sau ngày bắt đầu', 'error');
+      return;
+    }
     sendRequest({
       _id: editEmployeeObj._id,
       ...data,
