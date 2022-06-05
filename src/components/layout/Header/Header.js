@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,18 +13,18 @@ import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import { PersonOutlined, VpnKeyOutlined } from '@mui/icons-material';
 import { SIDEBAR_WIDTH } from '../../../constants';
-import { useCookies } from 'react-cookie';
 import useHttp from '../../../hooks/use-http';
 import { logout } from '../../../lib/api/auth';
+import { AuthContext } from '../../../store/auth-context';
+import swal from 'sweetalert';
 
 const Header = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [, , removeCookie] = useCookies();
-  const user = null;
+  const { user } = useContext(AuthContext);
   const { handleDrawerToggle } = props;
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const { sendRequest } = useHttp(logout);
+  const { sendRequest, status } = useHttp(logout);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +33,12 @@ const Header = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (status === 'completed') {
+      // window.location.reload();
+    }
+  }, [status]);
 
   return (
     <AppBar
@@ -111,7 +117,11 @@ const Header = (props) => {
                   'https://cdn-icons-png.flaticon.com/512/149/149071.png'
                 }
               />{' '}
-              <Stack direction="column" sx={{ minWidth: '200px' }}>
+              <Stack
+                justifyContent="center"
+                direction="column"
+                sx={{ minWidth: '200px' }}
+              >
                 <Typography variant="h6">{user?.name}</Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   Admin
@@ -134,7 +144,12 @@ const Header = (props) => {
               pr={2}
               direction="row"
               alignItems="center"
-              //   onClick={showEditProfileHandler}
+              onClick={() => {
+                swal(
+                  'Sorry',
+                  'Tính năng này đang được phát triển, vui lòng quay lại sau!'
+                );
+              }}
             >
               <Box
                 sx={{
@@ -176,7 +191,12 @@ const Header = (props) => {
               pr={2}
               direction="row"
               alignItems="center"
-              //   onClick={showEditPasswordHandler}
+              onClick={() => {
+                swal(
+                  'Sorry',
+                  'Tính năng này đang được phát triển, vui lòng quay lại sau!'
+                );
+              }}
             >
               <Box
                 sx={{
@@ -213,7 +233,18 @@ const Header = (props) => {
               variant="contained"
               onClick={() => {
                 sendRequest();
-                removeCookie('session_id');
+                function deleteAllCookies() {
+                  var cookies = document.cookie.split(';');
+
+                  for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf('=');
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie =
+                      name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+                  }
+                }
+                deleteAllCookies();
                 window.location.reload();
               }}
             >

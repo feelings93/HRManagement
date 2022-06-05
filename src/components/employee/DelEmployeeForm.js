@@ -7,28 +7,28 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
 import DialogContentText from '@mui/material/DialogContentText';
-import useHttp from '../../../hooks/use-http';
-import { UserContext } from '../../../store/admin/user-context';
-import { delUser } from '../../../lib/api/user';
+import { delEmployee } from '../../lib/api/employee';
+import { EmployeeContext } from '../../store/employee-context';
+import useHttp from '../../hooks/use-http';
 
 
-const DelUserForm = () => {
-  const { sendRequest, status, data, error } = useHttp(delUser);
-  const userCtx = useContext(UserContext);
-  const { handleCloseDelete, handleDelUser, delUserObj } = userCtx;
+const DelEmployeeForm = () => {
+  const { sendRequest, status, data, error } = useHttp(delEmployee);
+  const userCtx = useContext(EmployeeContext);
+  const { handleCloseDelete, handleDelEmployee, delEmployeeObj } = userCtx;
   React.useEffect(() => {
     if (status === 'completed') {
       if (data) {
         handleCloseDelete();
-        swal('Xóa thành công!', 'Bạn đã xóa người dùng thành công', 'success');
-        handleDelUser(delUserObj);
+        swal('Xóa thành công!', 'Bạn đã xóa nhân viên thành công', 'success');
+        handleDelEmployee(delEmployeeObj);
       } else if (error) swal('Đã có lỗi xảy ra', error, 'error');
     }
-  }, [data, error, status, handleCloseDelete, handleDelUser, delUserObj]);
-  const deleteUsersSubmitHandler = (event) => {
+  }, [data, error, status, handleCloseDelete, handleDelEmployee, delEmployeeObj]);
+  const handleSubmit = (event) => {
     event.preventDefault();
     const request = {
-      id: delUserObj.id,
+      _id: delEmployeeObj._id,
     };
     sendRequest(request);
   };
@@ -40,12 +40,12 @@ const DelUserForm = () => {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <form onSubmit={deleteUsersSubmitHandler}>
+        <form onSubmit={handleSubmit}>
           {status === 'pending' && <LinearProgress />}
           <DialogTitle id='alert-dialog-title'>Cảnh báo</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Bạn có muốn xóa người dùng này không?
+              Bạn có muốn xóa nhân viên này không?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -65,4 +65,4 @@ const DelUserForm = () => {
   );
 };
 
-export default DelUserForm;
+export default DelEmployeeForm;

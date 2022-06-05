@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const AuthContext = React.createContext({
-  user: null,
+  user: undefined,
   setUser: () => {},
 });
 
 const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState(undefined);
   console.log(user);
   const contextValue = {
     user,

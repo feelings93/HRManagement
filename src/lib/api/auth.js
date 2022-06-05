@@ -28,17 +28,17 @@ export const getProfile = async () => {
     const response = await axios.get('/profile');
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
 export const logout = async () => {
   try {
-    const response = await axios.post('/logout');
+    const response = await axios.delete('/logout');
 
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -54,7 +54,7 @@ export const updateProfile = async (data) => {
     });
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };
 
@@ -67,6 +67,6 @@ export const changePassword = async (data) => {
     });
     return response.data;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data?.message);
   }
 };

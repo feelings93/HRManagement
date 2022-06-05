@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -11,6 +10,8 @@ import AddEmployeeForm from '../components/employee/AddEmployeeForm';
 import EditEmployeeForm from '../components/employee/EditEmployeeForm';
 import EmployeeGrid from '../components/employee/EmployeeGrid';
 import { getEmployees } from '../lib/api/employee';
+import DelEmployeeForm from '../components/employee/DelEmployeeForm';
+import LoadingBox from '../components/UI/LoadingBox';
 
 const Employee = () => {
   const { data, error, status, sendRequest } = useHttp(getEmployees, true);
@@ -20,7 +21,6 @@ const Employee = () => {
     openAdd,
     openEdit,
     openDelete,
-    openActive,
     handleOpenAdd,
     setQuery,
     query,
@@ -35,7 +35,8 @@ const Employee = () => {
     }
   }, [data, status, setEmployees]);
 
-  if (status === 'pending') return <h1>Loading...</h1>;
+  if (status === 'pending') return <LoadingBox />;
+
   if (error) return <h1>Đã có lỗi xảy ra</h1>;
   return (
     <>
@@ -45,7 +46,7 @@ const Employee = () => {
         alignItems="center"
         direction="row"
       >
-        <Typography>Nhân viên</Typography>
+        <h3>Nhân viên</h3>
         <Stack spacing={1} alignItems="center" direction="row">
           <TextField
             size="small"
@@ -76,6 +77,7 @@ const Employee = () => {
       <EmployeeGrid />
       {openAdd && <AddEmployeeForm />}
       {openEdit && <EditEmployeeForm />}
+      {openDelete && <DelEmployeeForm />}
     </>
   );
 };

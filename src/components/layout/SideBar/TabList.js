@@ -1,9 +1,11 @@
 import {
   Analytics,
-  Category,
+  Business,
   Dashboard,
+  HolidayVillage,
+  LockClock,
   Person,
-  Pets,
+  Category,
 } from '@mui/icons-material';
 import React from 'react';
 import TabItem from './TabItem';
@@ -15,30 +17,40 @@ const tabList = [
     url: 'overview',
   },
   {
-    name: 'Phòng ban',
-    icon: <Category />,
-    url: 'department',
-  },
-  { 
     name: 'Nhân viên',
-    icon: <Pets />,
+    icon: <Person />,
     url: 'employee',
   },
   {
-    name: 'Quy định',
-    icon: <Dashboard />,
-    url: 'rule',
+    name: 'Chức vụ',
+    icon: <Category />,
+    url: 'role',
+  },
+  {
+    name: 'Chấm công',
+    icon: <LockClock />,
+    url: 'clock-in',
   },
   {
     name: 'Báo cáo',
     icon: <Analytics />,
     url: 'report',
   },
+  {
+    name: 'Công ty',
+    icon: <Business />,
+    url: 'company',
+  },
   // {
   //   name: 'Người dùng',
   //   icon: <Person />,
   //   url: 'user',
   // },
+  {
+    name: 'Ngày lễ',
+    icon: <HolidayVillage />,
+    url: 'holiday',
+  },
 ];
 
 const TabList = () => {
