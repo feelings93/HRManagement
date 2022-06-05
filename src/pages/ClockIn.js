@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -38,7 +37,7 @@ const ClockIn = () => {
         alignItems="center"
         direction="row"
       >
-        <Typography>Chấm công ngày</Typography>
+        <h3>Chấm công ngày</h3>
         <Stack spacing={1} alignItems="center" direction="row">
           <TextField
             size="small"

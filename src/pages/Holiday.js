@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -47,7 +46,7 @@ const Holiday = () => {
         alignItems="center"
         direction="row"
       >
-        <Typography>Ngày nghỉ lễ</Typography>
+        <h3>Ngày nghỉ lễ</h3>
         <Stack spacing={1} alignItems="center" direction="row">
           <TextField
             size="small"
