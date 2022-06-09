@@ -32,7 +32,7 @@ const Holiday = () => {
 
   React.useEffect(() => {
     if (status === 'completed' && data) {
-      setHolidays(data.map((x, index) => ({ ...x, stt: index + 1 })));
+      setHolidays(data);
     }
   }, [data, status, setHolidays]);
 

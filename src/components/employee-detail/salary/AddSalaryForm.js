@@ -22,6 +22,10 @@ const AddSalaryForm = () => {
   const { data, error, sendRequest, status } = useHttp(createSalary);
 
   const onSubmit = (data) => {
+    if (data.otSalary < 0 || data.salary < 0) {
+      swal('Thất bại', 'Lương không được âm', 'error');
+      return;
+    }
     sendRequest({ ...data, employeeID: params.id });
   };
 

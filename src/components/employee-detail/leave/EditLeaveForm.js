@@ -39,6 +39,10 @@ const EditLeaveForm = () => {
   const { data, error, sendRequest, status } = useHttp(editLeave);
 
   const onSubmit = (data) => {
+    if (data.numberOfDays <= 0) {
+      swal('Thất bại', 'Số ngày nghỉ phải lớn hơn 0', 'error');
+      return;
+    }
     sendRequest({
       _id: editLeaveObj._id,
       employeeID: editLeaveObj.employeeID,

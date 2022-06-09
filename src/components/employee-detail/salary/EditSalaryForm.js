@@ -23,6 +23,10 @@ const EditSalaryForm = () => {
   const { data, error, sendRequest, status } = useHttp(editSalary);
 
   const onSubmit = (data) => {
+    if (data.otSalary < 0 || data.salary < 0) {
+      swal('Thất bại', 'Lương không được âm', 'error');
+      return;
+    }
     sendRequest({
       _id: editSalaryObj._id,
       employeeID: editSalaryObj.employeeID,

@@ -36,6 +36,10 @@ const AddLeaveForm = () => {
   const { data, error, sendRequest, status } = useHttp(createLeave);
   const [leaveType, setLeaveType] = useState(null);
   const onSubmit = (data) => {
+    if (data.numberOfDays <= 0) {
+      swal('Thất bại', 'Số ngày nghỉ phải lớn hơn 0', 'error');
+      return;
+    }
     sendRequest({ ...data, leaveType: leaveType.name, employeeID: params.id });
   };
 
