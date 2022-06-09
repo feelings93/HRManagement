@@ -77,9 +77,9 @@ const EmployeeGrid = () => {
       renderCell: (params) => {
         return (
           <Chip
-            color={params.row.paymentDue === false ? 'error' : 'info'}
+            color={params.row.paymentDue ? 'info' : 'error'}
             variant="outlined"
-            label={params.row.paymentDue === false ? 'Chưa' : 'Đã đến'}
+            label={params.row.paymentDue ? 'Đã đến' : 'Chưa đến'}
           />
         );
       },

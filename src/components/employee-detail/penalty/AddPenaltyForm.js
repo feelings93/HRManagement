@@ -31,6 +31,10 @@ const AddPenaltyForm = () => {
   const [type, setType] = useState(null);
   const [types, setTypes] = useState([]);
   const onSubmit = (data) => {
+    if (data.deduction < 0) {
+      swal('Thất bại', 'Số tiền phạt không thể là số âm', 'error');
+      return;
+    }
     sendRequest({ ...data, type, employeeID: params.id });
   };
 

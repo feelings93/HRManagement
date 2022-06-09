@@ -58,7 +58,7 @@ const LeaveGrid = () => {
       field: 'startDate',
       headerName: 'Ngày bắt đầu',
       valueGetter: (params) => {
-        return moment(params.row.occurredAt).format('DD-MM-yyyy');
+        return moment(params.row.startDate).format('DD-MM-yyyy');
       },
       width: 200,
       editable: false,

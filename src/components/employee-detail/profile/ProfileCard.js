@@ -75,7 +75,7 @@ const ProfileCard = () => {
             </Grid>
             <Grid xs={8} item>
               <Typography variant="subtitle1" fontWeight={600}>
-                {data?.gender === 0 ? 'Nam' : 'Nữ'}
+                {data?.gender === 1 ? 'Nam' : 'Nữ'}
               </Typography>
             </Grid>
             <Grid xs={4} item>
@@ -101,15 +101,15 @@ const ProfileCard = () => {
             </Grid>
             <Grid xs={8} item>
               <Typography variant="subtitle1" fontWeight={600}>
-                {data?.role || 'Chưa xác định'}
+                {data?.role?.name || 'Chưa xác định'}
               </Typography>
             </Grid>
             <Grid xs={4} item>
-              <Typography variant="subtitle1">Hết hạn thanh toán</Typography>
+              <Typography variant="subtitle1">Đến hạn trả lương</Typography>
             </Grid>
             <Grid xs={8} item>
               <Typography variant="subtitle1" fontWeight={600}>
-                {data?.paymentDue || 'Chưa xác định'}
+                {data?.paymentDue ? 'Đã đến' : 'Chưa đến'}
               </Typography>
             </Grid>
           </Grid>

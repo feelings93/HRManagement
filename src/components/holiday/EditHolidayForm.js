@@ -25,6 +25,10 @@ const EditHolidayForm = () => {
   const [repeatYearly, setRepeatYearly] = useState(editHolidayObj.repeatYearly);
 
   const onSubmit = (data) => {
+    if (data.numberOfDaysOff <= 0) {
+      swal('Thất bại', 'Số ngày nghỉ phải lớn hơn 0', 'error');
+      return;
+    }
     sendRequest({ _id: editHolidayObj._id, ...data, repeatYearly });
   };
 

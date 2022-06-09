@@ -32,6 +32,10 @@ const EditPenaltyForm = () => {
   } = useHttp(getProfile, true);
 
   const onSubmit = (data) => {
+    if (data.deduction < 0) {
+      swal('Thất bại', 'Số tiền phạt không thể là số âm', 'error');
+      return;
+    }
     sendRequest({
       _id: editPenaltyObj._id,
       employeeID: editPenaltyObj.employeeID,

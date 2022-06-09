@@ -23,6 +23,10 @@ const AddHolidayForm = () => {
   const { data, error, sendRequest, status } = useHttp(createHoliday);
   const [repeatYearly, setRepeatYearly] = useState(true);
   const onSubmit = (data) => {
+    if (data.numberOfDaysOff <=0) {
+      swal('Thất bại', 'Số ngày nghỉ phải lớn hơn 0', 'error');
+      return;
+    }
     // console.log({ ...data, repeatYearly });
     sendRequest({ ...data, repeatYearly });
   };
