@@ -130,6 +130,17 @@ const initChartOptions = {
 const ReportChart = () => {
   const { sendRequest, data, error, status } = useHttp(getReports);
 
+  const getReportNewest = (reports) => {
+    if (!reports) reports = [];
+    const data = reports
+      .filter((x) => moment(x.compileDate).isSameOrBefore(moment(new Date())))
+      .sort((x, y) => {
+        if (moment(x.compileDate).isAfter(moment(y.compileDate))) return -1;
+        else return 0;
+      });
+    return data[0];
+  };
+
   const parseSeries = (reports) => {
     console.log(reports);
     if (!reports) reports = [];
@@ -190,6 +201,15 @@ const ReportChart = () => {
       {status === 'pending' && <CircularProgress />}
       {status !== 'pending' && data && (
         <>
+          <h4 style={{textAlign: 'center'}}>
+            {getReportNewest(data)
+              ? `Biểu đồ dựa trên báo cáo được biên soạn vào ngày ${moment(
+                  getReportNewest(data).compileDate
+                ).format('DD-MM-yyyy')} đến ngày ${moment(
+                  getReportNewest(data).compiledUpTo
+                ).format('DD-MM-yyyy')}`
+              : 'Vui lòng tạo báo cáo để xem biểu đồ này'}
+          </h4>
           <Chart
             options={initChartOptions.options}
             series={parseSeries(data)}

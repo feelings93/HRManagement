@@ -31,7 +31,7 @@ const CompanyRule = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!moment(startWork, 'HH:mm').isBefore(moment(endWork, 'HH:mm'))) {
-      swal('Thất bại', 'Giờ kết thúc [phải sau giờ bắt đầu', 'error');
+      swal('Thất bại', 'Giờ kết thúc phải sau giờ bắt đầu', 'error');
       return;
     }
     sendRequest({
