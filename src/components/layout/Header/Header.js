@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PersonOutlined, VpnKeyOutlined } from '@mui/icons-material';
 import { SIDEBAR_WIDTH } from '../../../constants';
 import useHttp from '../../../hooks/use-http';
-import { logout } from '../../../lib/api/auth';
+import { logout, notifyChange } from '../../../lib/api/auth';
 import { AuthContext } from '../../../store/auth-context';
 import swal from 'sweetalert';
 
@@ -25,6 +25,10 @@ const Header = (props) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const { sendRequest, status } = useHttp(logout);
+  const {
+    sendRequest: sendChangeRequest,
+    status: statusChange,
+  } = useHttp(notifyChange);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,7 +126,7 @@ const Header = (props) => {
                 direction="column"
                 sx={{ minWidth: '200px' }}
               >
-                <Typography variant="h6">{user?.name}</Typography>
+                <Typography variant="h6">{user?.username}</Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   Admin
                 </Typography>
@@ -192,9 +196,10 @@ const Header = (props) => {
               direction="row"
               alignItems="center"
               onClick={() => {
+                sendChangeRequest(user?.username);
                 swal(
-                  'Sorry',
-                  'Tính năng này đang được phát triển, vui lòng quay lại sau!'
+                  'Gửi đổi mật khẩu',
+                  'Đã gửi thư yêu cầu đổi mật khẩu đến email của bạn!'
                 );
               }}
             >

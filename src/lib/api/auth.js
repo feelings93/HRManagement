@@ -58,13 +58,43 @@ export const updateProfile = async (data) => {
   }
 };
 
-export const changePassword = async (data) => {
+export const changePassword = async ({ password, tkn}) => {
   try {
-    const response = await axios.patch('/auth/password', data, {
-      headers: {
-        Authorization: bearerHeader,
-      },
+    console.log(tkn);
+    const response = await axios.put('/password-change', { password }, {
+      params: {
+        token: tkn,
+        logout: true,
+      }
     });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response.data?.message);
+  }
+};
+
+export const notifyChange = async (data) => {
+  try {
+    console.log(data);
+    const response = await axios.post('/password-change', {}, {
+      params: {
+        username: data
+      }
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response.data?.message);
+  }
+};
+
+export const verify = async (data) => {
+  try {
+    const response = await axios.put('/verify', {}, {
+      params: {
+        token: data
+      }
+    });
+    console.log(response.data.args);
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
