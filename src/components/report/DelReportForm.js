@@ -36,7 +36,7 @@ const DelReportForm = () => {
     <Dialog open={openDel}>
       {status === 'pending' && <LinearProgress />}
       <form onSubmit={onSubmit}>
-        <DialogTitle>Check in</DialogTitle>
+        <DialogTitle>Cảnh báo</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Bạn có muốn xóa báo cáo này không?
