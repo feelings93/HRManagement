@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { PersonOutlined, VpnKeyOutlined } from '@mui/icons-material';
 import { SIDEBAR_WIDTH } from '../../../constants';
 import useHttp from '../../../hooks/use-http';
-import { logout } from '../../../lib/api/auth';
+import { logout, notifyChange } from '../../../lib/api/auth';
 import { AuthContext } from '../../../store/auth-context';
 import swal from 'sweetalert';
 
@@ -25,6 +25,11 @@ const Header = (props) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const { sendRequest, status } = useHttp(logout);
+  const {
+    sendRequest: sendChangeRequest,
+    status: statusChange,
+    error: errorChange,
+  } = useHttp(notifyChange);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +38,25 @@ const Header = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (statusChange === 'completed') {
+      if (errorChange) {
+        console.log(errorChange);
+        swal(
+          'Đã có lỗi xảy ra',
+          errorChange,
+          'error',
+        );
+      } else {
+        swal(
+          'Gửi đổi mật khẩu',
+          'Đã gửi thư yêu cầu đổi mật khẩu đến email của bạn!',
+          'success',
+        );
+      }
+    }
+  }, [statusChange, errorChange]);
 
   useEffect(() => {
     if (status === 'completed') {
@@ -122,7 +146,7 @@ const Header = (props) => {
                 direction="column"
                 sx={{ minWidth: '200px' }}
               >
-                <Typography variant="h6">{user?.name}</Typography>
+                <Typography variant="h6">{user?.username}</Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   Admin
                 </Typography>
@@ -192,10 +216,7 @@ const Header = (props) => {
               direction="row"
               alignItems="center"
               onClick={() => {
-                swal(
-                  'Sorry',
-                  'Tính năng này đang được phát triển, vui lòng quay lại sau!'
-                );
+                sendChangeRequest(user?.username);
               }}
             >
               <Box

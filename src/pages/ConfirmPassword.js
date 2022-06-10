@@ -8,19 +8,27 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useHttp from '../hooks/use-http';
-import { signup } from '../lib/api/auth';
+import { changePassword } from '../lib/api/auth';
 import swal from 'sweetalert';
 
-const Register = () => {
+const ConfirmPassword = () => {
   const { register, handleSubmit } = useForm();
-  const { sendRequest, status, data, error } = useHttp(signup);
+  const { sendRequest, status, data, error } = useHttp(changePassword);
   const navigate = useNavigate();
 
-  const onSubmit = (data) => sendRequest(data);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
+  const onSubmit = (data) => {
+    if (data.password === data.confirmPassword) {
+      sendRequest({ password: data.password, tkn: token});
+    } else {
+      swal('Đổi mật khẩu thất bại', 'Mật khẩu xác thực không trùng với mật khẩu mới', 'error');
+    }
+  };
 
   const navigateToLogin = (e) => {
     e.preventDefault();
@@ -29,7 +37,8 @@ const Register = () => {
   useEffect(() => {
     if (status === 'completed') {
       if (error) {
-        swal('Đăng ký thất bại', 'Đã có lỗi xảy ra', 'error');
+        console.log(error);
+        swal('Đổi mật khẩu thất bại', 'Đã có lỗi xảy ra', 'error');
       }
     }
   }, [data, error, navigate, status]);
@@ -50,7 +59,7 @@ const Register = () => {
       >
         <img src={registerSuccess} alt="register" width="300px" />
         <Typography variant="h4" textAlign="center" fontWeight="500">
-          Đăng ký thành công
+          Đổi mật khẩu thành công
         </Typography>
         <Typography
           color="text.secondary"
@@ -58,8 +67,7 @@ const Register = () => {
           variant="body2"
           fontWeight="500"
         >
-          Bạn đã đăng ký thành công!<br/>
-          Vui lòng kiểm tra email đã được đăng ký của bạn để xác thực tài khoản này!
+          Bạn đã đổi mật khẩu thành công!
         </Typography>
         <Button href="/login" onClick={navigateToLogin} variant="outlined">
           Chuyển đến trang Đăng nhập
@@ -73,46 +81,30 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={2}>
             <Typography variant="h4" fontWeight="700">
-              Đăng ký
+              Đổi mật khẩu
             </Typography>
-            <Typography variant="body1">
-              {'Đã có tài khoản? '}
-              <Link
-                sx={{ textDecoration: 'none' }}
-                href="/login"
-                onClick={navigateToLogin}
-              >
-                Đăng nhập
-              </Link>
-            </Typography>
-            <Stack spacing={1}>
-              <InputLabel sx={{ fontWeight: '500' }} htmlFor="username">
-                Tên đăng nhập
-              </InputLabel>
-              <TextField {...register('username')} size="small" id="username" required />
-            </Stack>
-            <Stack spacing={1}>
-              <InputLabel sx={{ fontWeight: '500' }} htmlFor="email">
-                Email
-              </InputLabel>
-              <TextField
-                {...register('email')}
-                id="email"
-                size="small"
-                type="email"
-                required
-              />
-            </Stack>
             <Stack spacing={1}>
               <InputLabel sx={{ fontWeight: '500' }} htmlFor="password">
-                Mật khẩu
+                New password
               </InputLabel>
               <TextField
                 {...register('password')}
+                required="true"
                 id="password"
                 size="small"
                 type="password"
-                required
+              />
+            </Stack>
+            <Stack spacing={1}>
+              <InputLabel sx={{ fontWeight: '500' }}>
+                Confirm passowrd
+              </InputLabel>
+              <TextField 
+                {...register('confirmPassword')}
+                required="true"
+                id="confirm-password"
+                size="small"
+                type="password"
               />
             </Stack>
             <Button
@@ -121,7 +113,7 @@ const Register = () => {
               variant="contained"
               disableElevation
               disabled={status === 'pending'}
-              children={status === 'pending' ? 'Đang đăng ký...' : 'Đăng ký'}
+              children={status === 'pending' ? 'Đang đổi mật khẩu...' : 'Đổi mật khẩu'}
             />
           </Stack>
           {status === 'pending' && <LinearProgress />}
@@ -144,4 +136,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ConfirmPassword;
