@@ -58,7 +58,7 @@ export const updateProfile = async (data) => {
   }
 };
 
-export const changePassword = async ({ password, tkn}) => {
+export const changePassword = async ({ password, tkn }) => {
   try {
     console.log(tkn);
     const response = await axios.put('/password-change', { password }, {

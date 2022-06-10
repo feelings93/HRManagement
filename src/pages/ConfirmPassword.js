@@ -23,7 +23,11 @@ const ConfirmPassword = () => {
   const token = searchParams.get("token");
 
   const onSubmit = (data) => {
-    sendRequest({...data, tkn: token})
+    if (data.password === data.confirmPassword) {
+      sendRequest({ password: data.password, tkn: token});
+    } else {
+      swal('Đổi mật khẩu thất bại', 'Mật khẩu xác thực không trùng với mật khẩu mới', 'error');
+    }
   };
 
   const navigateToLogin = (e) => {
@@ -96,6 +100,7 @@ const ConfirmPassword = () => {
                 Confirm passowrd
               </InputLabel>
               <TextField 
+                {...register('confirmPassword')}
                 required="true"
                 id="confirm-password"
                 size="small"
