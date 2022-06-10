@@ -37,7 +37,7 @@ const EditReportForm = () => {
     <Dialog open={openEdit}>
       {status === 'pending' && <LinearProgress />}
       <form onSubmit={onSubmit}>
-        <DialogTitle>Check in</DialogTitle>
+        <DialogTitle>Cập nhật</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Bạn có muốn cập nhật báo cáo này không?
