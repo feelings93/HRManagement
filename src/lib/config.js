@@ -6,4 +6,3 @@ export const axios = axiosDefault.create({
   withCredentials: true,
 });
 export const bearerHeader = `Bearer ${localStorage.getItem('accessToken')}`;
-

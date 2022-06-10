@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import useHttp from '../hooks/use-http';
-import { login } from '../lib/api/auth';
+import { login, notifyChange } from '../lib/api/auth';
 import swal from 'sweetalert';
 import { AuthContext } from '../store/auth-context';
 import loginLogo from '../assets/images/login.svg';
@@ -18,6 +18,12 @@ import loginLogo from '../assets/images/login.svg';
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const { sendRequest, status, data, error } = useHttp(login);
+  const {
+    sendRequest: sendChangeRequest,
+    status: statusChange,
+    error: errorChange,
+  } = useHttp(notifyChange);
+  
   const authCtx = useContext(AuthContext);
   const { setUser } = authCtx;
   const navigate = useNavigate();
@@ -26,6 +32,36 @@ const Login = () => {
     e.preventDefault();
     navigate('/register');
   };
+
+  const [username, setUserName] = useState("");
+
+  const handleChange = (e) => {
+    setUserName(e.target.value);
+  }
+
+  const notifyChangeRequest = (e) => {
+    e.preventDefault();
+    sendChangeRequest(username);
+  }
+
+  useEffect(() => {
+    if (statusChange === 'completed') {
+      if (errorChange) {
+        console.log(errorChange);
+        swal(
+          'Đã có lỗi xảy ra',
+          errorChange,
+          'error',
+        );
+      } else {
+        swal(
+          'Gửi đổi mật khẩu',
+          'Đã gửi thư yêu cầu đổi mật khẩu đến email của bạn!',
+          'success',
+        );
+      }
+    }
+  }, [errorChange, statusChange]);
 
   const onSubmit = (data) => sendRequest(data);
 
@@ -61,7 +97,13 @@ const Login = () => {
               <InputLabel sx={{ fontWeight: '500' }} htmlFor="username">
                 Tên đăng nhập
               </InputLabel>
-              <TextField {...register('username')} size="small" id="username" />
+              <TextField 
+                {...register('username')} 
+                size="small" 
+                id="username" 
+                required
+                onChange={handleChange}
+              />
             </Stack>
             <Stack spacing={1}>
               <InputLabel sx={{ fontWeight: '500' }} htmlFor="password">
@@ -72,8 +114,17 @@ const Login = () => {
                 id="password"
                 size="small"
                 type="password"
+                required
               />
             </Stack>
+            <Typography 
+              variant="body1" 
+              onClick={notifyChangeRequest} 
+              color="#3aa3cc" 
+              textAlign="right"
+              style={{cursor:'pointer'}}>
+              Đổi mật khẩu
+            </Typography>
             <Button
               type="submit"
               size="large"

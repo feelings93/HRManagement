@@ -24,6 +24,8 @@ import ClockInsContextProvider from './store/clock-ins-context';
 import ClockIn from './pages/ClockIn';
 import ReportContextProvider from './store/report-context';
 import LoadingBox from './components/UI/LoadingBox';
+import ConfirmPassword from './pages/ConfirmPassword';
+import Verify from './pages/Verify';
 
 const theme = createTheme({
   palette: {
@@ -84,6 +86,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes>
+        <Route exact path="/verify" element={<Verify />} />
+        <Route exact path="/confirm-password" element={<ConfirmPassword />} />
         <Route element={<RedirectWhenSignedInRoute />}>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
