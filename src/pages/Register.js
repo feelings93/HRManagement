@@ -89,7 +89,7 @@ const Register = () => {
               <InputLabel sx={{ fontWeight: '500' }} htmlFor="username">
                 Tên đăng nhập
               </InputLabel>
-              <TextField {...register('username')} size="small" id="username" />
+              <TextField {...register('username')} size="small" id="username" required />
             </Stack>
             <Stack spacing={1}>
               <InputLabel sx={{ fontWeight: '500' }} htmlFor="email">
@@ -112,6 +112,7 @@ const Register = () => {
                 id="password"
                 size="small"
                 type="password"
+                required
               />
             </Stack>
             <Button

@@ -101,7 +101,7 @@ const Login = () => {
                 {...register('username')} 
                 size="small" 
                 id="username" 
-                required="true"
+                required
                 onChange={handleChange}
               />
             </Stack>
@@ -114,7 +114,7 @@ const Login = () => {
                 id="password"
                 size="small"
                 type="password"
-                required="true"
+                required
               />
             </Stack>
             <Typography 
