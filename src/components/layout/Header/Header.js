@@ -28,6 +28,7 @@ const Header = (props) => {
   const {
     sendRequest: sendChangeRequest,
     status: statusChange,
+    error: errorChange,
   } = useHttp(notifyChange);
 
   const handleClick = (event) => {
@@ -37,6 +38,25 @@ const Header = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (statusChange === 'completed') {
+      if (errorChange) {
+        console.log(errorChange);
+        swal(
+          'Đã có lỗi xảy ra',
+          errorChange,
+          'error',
+        );
+      } else {
+        swal(
+          'Gửi đổi mật khẩu',
+          'Đã gửi thư yêu cầu đổi mật khẩu đến email của bạn!',
+          'success',
+        );
+      }
+    }
+  }, [statusChange, errorChange]);
 
   useEffect(() => {
     if (status === 'completed') {
@@ -197,10 +217,6 @@ const Header = (props) => {
               alignItems="center"
               onClick={() => {
                 sendChangeRequest(user?.username);
-                swal(
-                  'Gửi đổi mật khẩu',
-                  'Đã gửi thư yêu cầu đổi mật khẩu đến email của bạn!'
-                );
               }}
             >
               <Box
